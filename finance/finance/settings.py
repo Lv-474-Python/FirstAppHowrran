@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'registration',
 ]
+AUTH_USER_MODEL = "registration.CustomUser"
+# AUTH_USER_MODEL = "registration.CustomUser"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
