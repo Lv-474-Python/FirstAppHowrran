@@ -29,10 +29,11 @@ def registration_view(request):
 
         user = CustomUser.create(username=username, password=password, email=email, name=name, surname=surname)
         if user:
-            return HttpResponse('user added')
+            return redirect('home')
 
         return redirect('home')
     else:
         form = RegistrationForm()
 
     return render(request, 'registration.html', {'form': form})
+
