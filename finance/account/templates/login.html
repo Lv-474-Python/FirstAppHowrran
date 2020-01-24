@@ -13,12 +13,12 @@
         <h1>Login</h1>
         {% csrf_token %}
         <div class="txtb">
-            <input type="text" name="username">
+            <input type="text" name="username" minlength="3" maxlength="15" required>
             <span data-placeholder="Username"></span>
         </div>
 
         <div class="txtb">
-            <input type="password" name="password">
+            <input type="password" name="password" minlength="4" maxlength="25" required >
             <span data-placeholder="Password"></span>
 
         </div>

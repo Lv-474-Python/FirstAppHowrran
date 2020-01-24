@@ -25,7 +25,7 @@ def registration_view(request):
         if password != password2:
             form = RegistrationForm()
             print('pass not match')
-            return render(request, 'registration.html', {'form': form})
+            return render(request, 'account.html', {'form': form})
 
         user = CustomUser.create(username=username, password=password, email=email, name=name, surname=surname)
         if user:
@@ -35,5 +35,20 @@ def registration_view(request):
     else:
         form = RegistrationForm()
 
-    return render(request, 'registration.html', {'form': form})
+    return render(request, 'account.html', {'form': form})
 
+def login_view(request):
+
+    if request.method == 'GET':
+        return render(request, 'login.html')
+
+    username = request.POST.get("username")
+    password = request.POST.get('password')
+
+    user = authenticate(username=username, password=password)
+
+    if user and user.is_active:
+        login(request, user)
+        return redirect('home')
+
+    return redirect('login')
