@@ -1,8 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, IntegrityError
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 
 
@@ -36,4 +33,14 @@ class CustomUser(AbstractBaseUser):
             return user
         except IntegrityError as error:
             print(error)
+            return None
+
+    @staticmethod
+    def change_password(username, old_password, new_password):
+        # TODO end this function
+        try:
+            user = CustomUser.objects.get(username=username)
+
+
+        except ObjectDoesNotExist:
             return None

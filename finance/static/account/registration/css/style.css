@@ -14,18 +14,19 @@ body {
 .login-form {
     width: 360px;
     background: #f1f1f1;
-    height: 580px;
-    padding: 80px 40px;
+    height: 665px;
+    padding: 30px 40px;
     border-radius: 10px;
     position: absolute;
     left: 50%;
-    top: 375px;
+    top: 420px;
+    margin-bottom: 25px;
     transform: translate(-50%, -50%);
 }
 
 .login-form h1 {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 
 }
 
@@ -94,9 +95,24 @@ body {
 }
 
 .bottom-text {
-    margin-top: 60px;
+    margin-top: 20px;
     text-align: center;
     font-size: 13px;
+}
 
+#id_password_confirm {
+    margin-top: 30px;
+    margin-bottom: 6px;
+}
 
+#submit_btn {
+    margin-top: 10px;
+}
+
+#message {
+    color: green;
+}
+.loginbtn:disabled {
+    background: gray;
+    font-style: italic;
 }

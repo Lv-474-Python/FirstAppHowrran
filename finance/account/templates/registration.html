@@ -1,4 +1,11 @@
-<h2 align="center">Registration</h2>
+{% extends 'navbar.html' %}
+
+{% block head %}
+    <title>Registration</title>
+{% endblock %}
+
+{% block body %}
+<h2 style="margin-top: 10px;" align="center">Registration</h2>
 
 <div align="center">
     <form method="post">
@@ -20,3 +27,17 @@
     </form>
 
 </div>
+
+    <script>
+    var check = function() {
+  if (document.getElementById('password').value ==
+    document.getElementById('confirm_password').value) {
+    document.getElementById('message').style.color = 'green';
+    document.getElementById('message').innerHTML = 'matching';
+  } else {
+    document.getElementById('message').style.color = 'red';
+    document.getElementById('message').innerHTML = 'not matching';
+  }
+}
+    </script>
+{% endblock %}

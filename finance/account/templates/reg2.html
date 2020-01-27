@@ -1,0 +1,101 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+        <meta charset="UTF-8">
+        <title>Registration</title>
+        <link rel="stylesheet"
+              href="{% static "account/registration/css/style.css" %}">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+                charset="UTF-8"></script>
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <form action="" class="login-form" method="POST">
+        <h1>Registration</h1>
+        {% csrf_token %}
+        <div class="txtb">
+            <input type="text" name="username" minlength="3" maxlength="25"
+                   required>
+            <span data-placeholder="Username"></span>
+        </div>
+
+        <div class="txtb">
+            <input type="text" name="name" minlength="3" maxlength="25"
+                   required>
+            <span data-placeholder="Name"></span>
+        </div>
+
+        <div class="txtb">
+            <input type="text" name="surname" minlength="3" maxlength="25"
+                   required>
+            <span data-placeholder="Surname"></span>
+        </div>
+
+        <div class="txtb">
+            <input type="email" name="email" minlength="3" maxlength="25"
+                   required>
+            <span data-placeholder="Email"></span>
+        </div>
+
+        <div class="txtb">
+            <input type="password" name="password" id="password" minlength="1"
+                   maxlength="25"
+                   onkeyup="check()" required>
+            <span data-placeholder="Password"></span>
+
+        </div>
+
+        <div class="txtb" id="id_password_confirm">
+            <input type="password" name="password_confirm"
+                   id='password_confirm' minlength="1" maxlength="25"
+                   onkeyup="check()" required>
+            <span data-placeholder="Confirm Password"></span>
+
+        </div>
+        <span id='message'> matching </span>
+
+        <input type="submit" class="loginbtn" id="submit_btn" value="Register"
+               disabled>
+
+        <div class="bottom-text">
+            Already have an account? <a href="{% url 'login' %}">Log in</a>
+        </div>
+
+    </form>
+
+    <script type="text/javascript">
+        $(".txtb input").on("focus", function () {
+            $(this).addClass("focus");
+        });
+
+        $(".txtb input").on("blur", function () {
+            if ($(this).val() == "")
+                $(this).removeClass('focus');
+        });
+
+    </script>
+
+    <script>
+        var check = function () {
+            if (document.getElementById('password').value ==
+                document.getElementById('password_confirm').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'matching';
+                document.getElementById('submit_btn').disabled = false;
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'not matching';
+                document.getElementById('submit_btn').disabled = true;
+            }
+        }
+    </script>
+
+{% endblock %}
+</body>
+</html>

@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'account',
 ]
 AUTH_USER_MODEL = "account.CustomUser"
-# AUTH_USER_MODEL = "account.CustomUser"
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -56,7 +56,7 @@ ROOT_URLCONF = 'finance.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
