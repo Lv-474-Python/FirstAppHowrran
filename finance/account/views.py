@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password
 from .models import CustomUser
-
 
 @login_required
 def home_view(request):
@@ -74,19 +73,28 @@ def login_view(request):
 
     if user and user.is_active:
         login(request, user)
-        return redirect('home')
+        return redirect('home_account')
 
     return redirect('login')
 
 
+@login_required
 def logout_view(request):
     logout(request)
     return redirect('login')
 
 def change_password_view(request):
-    # TODO write change pasword function and template
-    if request.method =='POST':
-        pass
+    # TODO write change password function and template
+    if request.method == 'POST':
+        current_password = request.user.password
+        username = request.user.username
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        if check_password(old_password, current_password):
+            user = CustomUser.change_password(username=username,
+                                       new_password=new_password)
+            update_session_auth_hash(request, user)
+
+            return redirect('home_account')
 
     return render(request, 'change_password.html')
-
