@@ -1,44 +1,17 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth import authenticate, login, logout, \
+    update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password
 from .models import CustomUser
+
 
 @login_required
 def home_view(request):
     return render(request, 'good.html')
 
 
-# def registration_view(request):
-#     form = RegistrationForm(request.POST)
-#
-#     if form.is_valid():
-#
-#         username = form.cleaned_data.get('username')
-#         name = form.cleaned_data.get('name')
-#         surname = form.cleaned_data.get('surname')
-#         email = form.cleaned_data.get('email')
-#         password = form.cleaned_data.get('password')
-#         password2 = form.cleaned_data.get('password2')
-#
-#         if password != password2:
-#             form = RegistrationForm()
-#             print('pass not match')
-#             return render(request, 'reg2.html', {'form': form})
-#
-#         user = CustomUser.create(username=username, password=password,
-#                                  email=email, name=name, surname=surname)
-#         if user:
-#             return redirect('home')
-#
-#         return redirect('home')
-#     else:
-#         form = RegistrationForm()
-#
-#     return render(request, 'reg2.html', {'form': form})
-#
 def registration_view(request):
-
     if request.method == 'POST':
         username = request.POST.get('username')
         name = request.POST.get('name')
@@ -83,6 +56,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+
 def change_password_view(request):
     # TODO write change password function and template
     if request.method == 'POST':
@@ -92,7 +66,7 @@ def change_password_view(request):
         new_password = request.POST.get('new_password')
         if check_password(old_password, current_password):
             user = CustomUser.change_password(username=username,
-                                       new_password=new_password)
+                                              new_password=new_password)
             update_session_auth_hash(request, user)
 
             return redirect('home_account')
