@@ -3,6 +3,7 @@ from .models import Category
 
 
 def home_view(request):
+    '''render category home page'''
     categories = Category.objects.all()
     user_categories = Category.objects.filter(user_id=request.user)
     print(user_categories)
@@ -12,6 +13,7 @@ def home_view(request):
 
 
 def create_view(request):
+    '''create new user`s category in database'''
     if request.method == 'POST':
 
         data = {

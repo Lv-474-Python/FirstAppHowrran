@@ -3,6 +3,7 @@ from account.models import CustomUser
 
 
 class Category(models.Model):
+    '''User`s category model in database'''
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     type = models.CharField(max_length=255)
@@ -14,6 +15,7 @@ class Category(models.Model):
 
     @staticmethod
     def create(user_id, name, type, description, month_limit=999_999_999_999):
+        '''create new category in database'''
         category = Category(user_id=user_id, name=name, type=type,
                             description=description,
                             month_limit=month_limit)

@@ -3,6 +3,7 @@ from .models import CustomUser
 
 
 class RegistrationForm(forms.ModelForm):
+    '''form for user registration'''
     username = forms.CharField(max_length=50)
     name = forms.CharField(max_length=50)
     surname = forms.CharField(max_length=50)

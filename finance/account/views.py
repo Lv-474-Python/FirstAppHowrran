@@ -8,10 +8,12 @@ from .models import CustomUser
 
 @login_required
 def home_view(request):
+    '''render home html'''
     return render(request, 'good.html')
 
 
 def registration_view(request):
+    '''take arguments from registration form and create new user'''
     if request.method == 'POST':
         username = request.POST.get('username')
         name = request.POST.get('name')
@@ -31,11 +33,11 @@ def registration_view(request):
 
         return redirect('login')
 
-    else:
-        return render(request, 'reg2.html')
+    return render(request, 'reg2.html')
 
 
 def login_view(request):
+    '''render login page and authenticate the user'''
     if request.method == 'GET':
         return render(request, 'login.html')
 
@@ -53,12 +55,13 @@ def login_view(request):
 
 @login_required
 def logout_view(request):
+    '''logout the user'''
     logout(request)
     return redirect('login')
 
 
 def change_password_view(request):
-    # TODO write change password function and template
+    '''change users password'''
     if request.method == 'POST':
         current_password = request.user.password
         username = request.user.username

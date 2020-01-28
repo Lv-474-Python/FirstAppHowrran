@@ -4,6 +4,7 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 
 
 class CustomUser(AbstractBaseUser):
+    '''User database model'''
     username = models.CharField(max_length=30, unique=True)
     password = models.CharField(max_length=128)
     email = models.EmailField(max_length=30)
@@ -19,13 +20,15 @@ class CustomUser(AbstractBaseUser):
 
     @staticmethod
     def get_by_username(username):
+        '''get user by username'''
         try:
-            CustomUser.objects.get(username=username)
+            return CustomUser.objects.get(username=username)
         except ObjectDoesNotExist:
             return None
 
     @staticmethod
     def create(username, password, email, name='', surname=''):
+        '''create new user in database'''
         user = CustomUser(username=username, email=email, name=name, surname=surname)
         user.set_password(password)
         try:
@@ -37,6 +40,7 @@ class CustomUser(AbstractBaseUser):
 
     @staticmethod
     def change_password(username, new_password):
+        '''change user`s password'''
         try:
             user = CustomUser.objects.get(username=username)
         except ObjectDoesNotExist:
