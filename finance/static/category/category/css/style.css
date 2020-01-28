@@ -1,0 +1,26 @@
+/*.container {*/
+/*    margin-top: 15px;*/
+/*    display: flex;*/
+/*    flex-flow: row nowrap;*/
+/*    align-content: flex-start;*/
+/*}*/
+
+.categories {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+}
+
+.category {
+    /*display: flex;*/
+    /*flex-direction: row-reverse;*/
+    /*flex-wrap: wrap;*/
+    /*justify-content: space-between;*/
+    margin-right: 10px;
+}
+
+.description {
+    width: 250px;
+    word-wrap: break-word;
+}

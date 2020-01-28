@@ -1,17 +1,17 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Category
 
 
+@login_required(login_url='/account/login/')
 def home_view(request):
     '''render category home page'''
-    categories = Category.objects.all()
-    user_categories = Category.objects.filter(user_id=request.user)
-    print(user_categories)
+    categories = Category.objects.filter(user_id=request.user)
 
-    return render(request, 'category.html', {"categories": categories,
-                                             'user_categories': user_categories})
+    return render(request, 'category.html', {"categories": categories})
 
 
+@login_required(login_url='/account/login/')
 def create_view(request):
     '''create new user`s category in database'''
     if request.method == 'POST':

@@ -1,36 +1,42 @@
 {% extends "navbar.html" %}
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 
     {% block head %}
         <title>Category</title>
-
+        <link rel="stylesheet"
+              href="{% static 'category/category/css/style.css' %}">
     {% endblock %}
 </head>
 <body>
 {% block body %}
-    <p align="center"><a href="{% url 'create_category' %}"> Create new category</a> </p>
-    <div class="container" style="margin-top: 15px; display: flex; justify-content: space-evenly; ">
-        <div class="all_category">
+    <p align="center"><a href="{% url 'create_category' %}"> Create new
+        category</a></p>
 
-            <h2>All Categories:</h2>
+    <div class="container">
+
+        <h2>Your Categories:</h2>
+
+        <div class="categories">
             {% for category in categories %}
-                <p>{{ category.user_id }}</p>
-                <p>{{ category.name }}</p>
-                <p>{{ category.description }}</p>
-                <hr>
-            {% endfor %}
-        </div>
-
-        <div class="user_category">
-            <h2>{{ user }} Categories:</h2>
-
-            {% for user_category in user_categories %}
-                <p>{{ user_category.user_id }}</p>
-                <p>{{ user_category.name }}</p>
-                <p>{{ user_category.description }}</p>
-                <hr>
+                <div class="category">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Name: {{ category.name }}</li>
+                        <li class="list-group-item">
+                            Type: {{ category.type }}</li>
+                        <li class="list-group-item">
+                            {% if category.month_limit < 999999999999 %}
+                                {{ category.month_limit }}
+                            {% else %} unlimited</li>
+                            {% endif %}
+                        <li class="list-group-item description">
+                            {{ category.description }}</li>
+                    </ul>
+                </div>
             {% endfor %}
         </div>
     </div>

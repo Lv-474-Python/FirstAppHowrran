@@ -1,36 +1,40 @@
 {% extends 'navbar.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     {% block head %}
         <meta charset="UTF-8">
         <title>Create Category</title>
+
     {% endblock %}
 </head>
 <body>
 {% block body %}
 
-    <div style="margin-top: 15px;display: flex;flex-direction: column; align-items: center;">
+    <div class='container'
+         style="margin-top: 15px;display: flex;flex-direction: column; align-items: center;">
         <h1>Add New Category</h1>
         <form action="" method="POST">
             {% csrf_token %}
-            <p> Category Name: <input type="text" name="name"></p>
+            <p> Category Name: <input type="text" name="name" required></p>
             <p>Choose category type:
                 <select name="category_type">
-                    <option value="income">income</option>
-                    <option value="current">current</option>
-                    <option value="outcome" selected>outcome</option>
+                    <option value="Income">Income</option>
+                    <option value="Current">Current</option>
+                    <option value="Outcome" selected>Outcome</option>
                 </select>
             </p>
             <p>Month limit (optional):
                 <input name='month_limit' type="number" min="0">
             </p>
             <p>Description:</p>
-            <textarea name="category_description" id="id_category_description"
-                      cols="30"
-                      rows="10"
-                      maxlength="800">Enter your description here...</textarea>
-            <p><input type="submit" class="submit_btn"></p>
+            <input style="width: 350px"
+                    type="text" name="category_description"
+                   id="id_category_description"
+                   maxlength="60"
+                   placeholder='Enter Your Description'>
+            <p><br><input type="submit" class="submit_btn"></p>
         </form>
     </div>
 {% endblock %}
