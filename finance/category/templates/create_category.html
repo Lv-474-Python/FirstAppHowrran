@@ -1,15 +1,39 @@
+{% extends 'navbar.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     {% block head %}
-    <meta charset="UTF-8">
-    <title>Create Category</title>
+        <meta charset="UTF-8">
+        <title>Create Category</title>
     {% endblock %}
 </head>
 <body>
-    {% block body %}
+{% block body %}
 
-    {% endblock %}
+    <div style="margin-top: 15px;display: flex;flex-direction: column; align-items: center;">
+        <h1>Add New Category</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <p> Category Name: <input type="text" name="name"></p>
+            <p>Choose category type:
+                <select name="category_type">
+                    <option value="income">income</option>
+                    <option value="current">current</option>
+                    <option value="outcome" selected>outcome</option>
+                </select>
+            </p>
+            <p>Month limit (optional):
+                <input name='month_limit' type="number" min="0">
+            </p>
+            <p>Description:</p>
+            <textarea name="category_description" id="id_category_description"
+                      cols="30"
+                      rows="10"
+                      maxlength="800">Enter your description here...</textarea>
+            <p><input type="submit" class="submit_btn"></p>
+        </form>
+    </div>
+{% endblock %}
 
 </body>
 </html>
