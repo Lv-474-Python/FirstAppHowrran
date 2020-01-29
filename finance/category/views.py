@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Category
 
@@ -31,3 +31,10 @@ def create_view(request):
         return redirect('home_category')
 
     return render(request, 'create_category.html')
+
+
+def edit_view(request, category_id):
+    category = Category.objects.get(id=category_id)
+    if category.user_id == request.user:
+        return HttpResponse(category.name)
+    return HttpResponse('not')

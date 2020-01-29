@@ -9,7 +9,8 @@
     display: flex;
     justify-content: flex-end;
     flex-direction: row-reverse;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
+
 }
 
 .category {
@@ -17,10 +18,15 @@
     /*flex-direction: row-reverse;*/
     /*flex-wrap: wrap;*/
     /*justify-content: space-between;*/
-    margin-right: 10px;
+    margin-right: 20px;
+    margin-bottom: 20px;
 }
 
 .description {
     width: 250px;
     word-wrap: break-word;
+}
+.edit {
+    display: flex;
+    justify-content: center;
 }

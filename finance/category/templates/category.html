@@ -28,13 +28,16 @@
                             Name: {{ category.name }}</li>
                         <li class="list-group-item">
                             Type: {{ category.type }}</li>
-                        <li class="list-group-item">
+                        <li class="list-group-item"> Limit:
                             {% if category.month_limit < 999999999999 %}
                                 {{ category.month_limit }}
                             {% else %} unlimited</li>
                             {% endif %}
                         <li class="list-group-item description">
                             {{ category.description }}</li>
+                        <li class="list-group-item edit"><a
+                                href="{% url 'edit_category' category_id=category.id %}">edit</a>
+                        </li>
                     </ul>
                 </div>
             {% endfor %}
