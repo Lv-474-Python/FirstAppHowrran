@@ -13,7 +13,7 @@
 </head>
 <body>
 {% block body %}
-    <p align="center"><a href="{% url 'create_category' %}"> Create new
+    <p align="center"><a href="{% url 'category_create' %}"> Create new
         category</a></p>
 
     <div class="container">
@@ -31,12 +31,12 @@
                         <li class="list-group-item"> Limit:
                             {% if category.month_limit < 999999999999 %}
                                 {{ category.month_limit }}
-                            {% else %} unlimited</li>
+                            {% else %} Unlimited</li>
                             {% endif %}
                         <li class="list-group-item description">
                             {{ category.description }}</li>
                         <li class="list-group-item edit"><a
-                                href="{% url 'edit_category' category_id=category.id %}">edit</a>
+                                href="{% url 'category_edit' category_id=category.id %}">edit</a>
                         </li>
                     </ul>
                 </div>

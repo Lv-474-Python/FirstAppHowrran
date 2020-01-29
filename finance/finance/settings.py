@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'category',
 ]
 AUTH_USER_MODEL = "account.CustomUser"
+LOGIN_URL='/account/login/'
 
 
 MIDDLEWARE = [

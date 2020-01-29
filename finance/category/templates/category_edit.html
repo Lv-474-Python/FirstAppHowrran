@@ -1,0 +1,67 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+        <title>Edit</title>
+        <link rel="stylesheet"
+              href="{% static 'category/category_edit/css/style.css' %}">
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table class="table table-bordered">
+
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Value</th>
+                <th scope="col">New Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Name</td>
+                <td>{{ category.name }}</td>
+                <td><input class='my_input' name="name" type="text"
+                           placeholder="enter new value if you want to change it">
+                </td>
+
+            </tr>
+            <tr>
+                <td>Type</td>
+                <td>{{ category.type }}</td>
+                <td><input class='my_input' name="type" type="text"
+                           placeholder="enter new value if you want to change it">
+                </td>
+            </tr>
+            <tr>
+                <td>Month Limit</td>
+                <td>{% if category.month_limit < 999999999999 %}
+                    {{ category.month_limit }}
+                {% else %} Unlimited</li>
+                {% endif %}</td>
+                <td><input class='my_input' name="month_limit" type="text"
+                           placeholder="enter new value if you want to change it">
+                </td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td>{{ category.description }}</td>
+                <td><input class='my_input' name="description" type="text"
+                           placeholder="enter new value if you want to change it">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <input id="id_submit" type="submit">
+    </form>
+
+{% endblock %}
+
+</body>
+</html>

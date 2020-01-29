@@ -1,0 +1,14 @@
+.my_input {
+    width: 100%;
+    border: none;
+}
+
+.my_input:focus {
+    outline: none;
+    border: none;
+
+}
+
+#id_submit {
+    float: right;
+}

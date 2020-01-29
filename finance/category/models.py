@@ -25,3 +25,6 @@ class Category(models.Model):
             return category
         except  IntegrityError:
             return None
+
+    # @staticmethod
+    # def update():
