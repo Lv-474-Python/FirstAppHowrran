@@ -7,9 +7,9 @@
 
 .categories {
     display: flex;
-    justify-content: flex-end;
-    flex-direction: row-reverse;
-    flex-wrap: wrap-reverse;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
 
 }
 

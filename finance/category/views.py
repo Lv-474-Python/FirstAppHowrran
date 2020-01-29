@@ -6,7 +6,8 @@ from .models import Category
 @login_required()
 def home_view(request):
     '''render category home page'''
-    categories = Category.objects.filter(user_id=request.user)
+    categories = reversed(Category.objects.filter(user_id=request.user))
+
 
     return render(request, 'category.html', {"categories": categories})
 
