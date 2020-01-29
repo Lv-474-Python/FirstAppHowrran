@@ -26,5 +26,19 @@ class Category(models.Model):
         except  IntegrityError:
             return None
 
-    # @staticmethod
-    # def update():
+    @staticmethod
+    def update(id, data):
+        category = Category.objects.get(id=id)
+        print(data)
+
+
+        for key, value in data.items():
+             category.__dict__[key] = value
+
+        try:
+            category.save()
+            return category
+        except IntegrityError:
+            return None
+
+

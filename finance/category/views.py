@@ -34,6 +34,8 @@ def create_view(request):
 
 
 def edit_view(request, category_id):
+    category = Category.objects.get(id=category_id)
+
     if request.method == 'POST':
 
         data = {
@@ -44,12 +46,17 @@ def edit_view(request, category_id):
         'description' : request.POST.get('description')
         }
 
+        change_data =dict()
         for key, value in data.items():
-            print(f'{key=}, {value=}')
+            if value and value != category_id:
+                change_data[key] = value
+
+        # print(data)
+        # print(change_data)
+        Category.update(category_id, change_data)
+        return redirect('category_home')
 
 
-
-    category = Category.objects.get(id=category_id)
     if category.user_id == request.user:
         return render(request, 'category_edit.html', {'category':category})
-    return HttpResponse('not')
+    return HttpResponse('not allowed')

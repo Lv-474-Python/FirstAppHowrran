@@ -45,7 +45,8 @@
                     {{ category.month_limit }}
                 {% else %} Unlimited</li>
                 {% endif %}</td>
-                <td><input class='my_input' name="month_limit" type="text"
+                <td><input class='my_input number' name="month_limit" type="number"
+                           default="{{ category.month_limit }}"
                            placeholder="enter new value if you want to change it">
                 </td>
             </tr>
