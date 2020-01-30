@@ -30,3 +30,7 @@
     display: flex;
     justify-content: center;
 }
+
+#id_create_new_category {
+    margin-top: 10px;
+}
