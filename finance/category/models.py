@@ -1,4 +1,7 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, IntegrityError
+from django.db.models import ProtectedError
+
 from account.models import CustomUser
 
 
@@ -27,13 +30,19 @@ class Category(models.Model):
             return None
 
     @staticmethod
+    def get_category(id):
+        try:
+            return Category.objects.get(id=id)
+        except ObjectDoesNotExist:
+            return None
+
+    @staticmethod
     def update(id, data):
         category = Category.objects.get(id=id)
         print(data)
 
-
         for key, value in data.items():
-             category.__dict__[key] = value
+            category.__dict__[key] = value
 
         try:
             category.save()
@@ -41,4 +50,15 @@ class Category(models.Model):
         except IntegrityError:
             return None
 
+    @staticmethod
+    def delete_category(id):
+        try:
+            category = Category.objects.get(id=id)
+        except  ObjectDoesNotExist:
+            return None
 
+        try:
+            category.delete()
+        except (IntegrityError, ProtectedError) as error:
+            print(error)
+            return None

@@ -28,6 +28,7 @@
                 <td>Name</td>
                 <td>{{ category.name }}</td>
                 <td><input class='my_input' name="name" type="text"
+                           maxlength="50"
                            placeholder="enter new value if you want to change it">
                 </td>
 
@@ -35,8 +36,13 @@
             <tr>
                 <td>Type</td>
                 <td>{{ category.type }}</td>
-                <td><input class='my_input' name="type" type="text"
-                           placeholder="enter new value if you want to change it">
+                <td><select name="category_type"
+                            class="form-control"
+                            id="exampleFormControlSelect1">
+                    <option value="Outcome">Outcome</option>
+                    <option value="Current">Current</option>
+                    <option value="Income">Income</option>
+                </select>
                 </td>
             </tr>
             <tr>
@@ -45,21 +51,25 @@
                     {{ category.month_limit }}
                 {% else %} Unlimited</li>
                 {% endif %}</td>
-                <td><input class='my_input number' name="month_limit" type="number"
+                <td><input class='my_input number' name="month_limit"
+                           type="number"
                            default="{{ category.month_limit }}"
-                           placeholder="enter new value if you want to change it">
+                           placeholder="enter new value if you want to change it, for unlimited enter very large numberq">
                 </td>
             </tr>
             <tr>
                 <td>Description</td>
                 <td>{{ category.description }}</td>
                 <td><input class='my_input' name="description" type="text"
+                           maxlength="58"
                            placeholder="enter new value if you want to change it">
                 </td>
             </tr>
             </tbody>
         </table>
-        <input id="id_submit" type="submit">
+        <a href="delete" class="btn btn-info">Delete</a>
+        <input id="id_submit" type="submit" class="btn btn-dark">
+
     </form>
 
 {% endblock %}
