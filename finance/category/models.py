@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.validators import MinValueValidator
 from django.db import models, IntegrityError
 from django.db.models import ProtectedError
 
@@ -10,8 +11,8 @@ class Category(models.Model):
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     type = models.CharField(max_length=255)
-    month_limit = models.FloatField(max_length=1000000)
-    description = models.TextField(max_length=800, blank=True)
+    month_limit = models.FloatField(MinValueValidator(0), max_length=1000000)
+    description = models.TextField(max_length=58, blank=True)
 
     class Meta:
         db_table = 'tbl_category'

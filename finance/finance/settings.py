@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account',
     'category',
+    'operation',
 ]
 AUTH_USER_MODEL = "account.CustomUser"
 LOGIN_URL='/account/login/'
