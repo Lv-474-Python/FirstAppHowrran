@@ -34,6 +34,7 @@ def create_view(request):
     return render(request, 'category_create.html')
 
 
+@login_required()
 def edit_view(request, category_id):
     category = Category.get_category(id=category_id)
     if category:
@@ -63,6 +64,7 @@ def edit_view(request, category_id):
     return HttpResponse('not found')
 
 
+@login_required()
 def delete_view(request, category_id):
     category = Category.get_category(id=category_id)
     if category:
