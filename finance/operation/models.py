@@ -1,5 +1,6 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MinValueValidator
-from django.db import models
+from django.db import models, IntegrityError
 from category.models import Category
 
 
@@ -21,13 +22,23 @@ class Operation(models.Model):
                               to_category=to_category,
                               value=value,
                               date=date)
-
-        operation = Operation(from_category=from_category,
+        else:
+            operation = Operation(from_category=from_category,
                               to_category=to_category,
                               value=value)
 
         try:
             operation.save()
             return operation
-        except IndentationError as error:
+        except IntegrityError:
+            return None
+
+    @staticmethod
+    def get_user_operation(user_id):
+        try:
+            operation_list = Operation.objects.filter(from_category__user_id=user_id)
+            print(operation_list)
+
+            return list(operation_list)
+        except ObjectDoesNotExist:
             return None

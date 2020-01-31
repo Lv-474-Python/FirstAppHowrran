@@ -4,7 +4,8 @@ from .models import Operation
 
 
 def home_view(request):
-    return render(request, 'operation.html')
+    user_operation = Operation.get_user_operation(request.user.id)
+    return render(request, 'operation.html', {'user_operation':user_operation})
 
 
 def create_view(request):
