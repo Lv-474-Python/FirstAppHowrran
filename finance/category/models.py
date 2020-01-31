@@ -16,6 +16,7 @@ class Category(models.Model):
 
     class Meta:
         db_table = 'tbl_category'
+        unique_together = [['user_id', 'name']]
 
     @staticmethod
     def create(user_id, name, type, description, month_limit=999_999_999_999):
@@ -40,7 +41,6 @@ class Category(models.Model):
     @staticmethod
     def update(id, data):
         category = Category.objects.get(id=id)
-        print(data)
 
         for key, value in data.items():
             category.__dict__[key] = value
@@ -62,4 +62,21 @@ class Category(models.Model):
             category.delete()
         except (IntegrityError, ProtectedError) as error:
             print(error)
+            return None
+
+    @staticmethod
+    def get_user_category(user_id):
+        try:
+            category_list = Category.objects.filter(user_id=user_id)
+            return list(category_list)
+        except ObjectDoesNotExist:
+            return None
+
+    @staticmethod
+    def get_category_by_name(user_id, name):
+
+        try:
+            category = Category.objects.get(user_id=user_id, name=name)
+            return category
+        except ObjectDoesNotExist:
             return None

@@ -1,0 +1,40 @@
+{% extends 'navbar.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+        <title>Operation</title>
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <h1 align="center">Operations</h1>
+    <a href="{% url 'operation_create' %}">Create new operation</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            <th scope="col">Value</th>
+            <th scope="col">Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+
+        </tbody>
+    </table>
+{% endblock %}
+</body>
+</html>

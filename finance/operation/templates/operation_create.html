@@ -1,0 +1,111 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+        <title>Create Operation</title>
+        <script type="text/javascript"
+                src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript"
+                src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+        <script type="text/javascript"
+                src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css"/>
+        <link rel="stylesheet"
+              href="{% static 'operation/operation_create/css/style.css' %}">
+
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+
+    <form class="operation_create" action="" method="POST">
+
+        <div class="form-group">
+
+            <label for="exampleFormControlSelect1">From</label>
+            <select class="form-control" id="exampleFormControlSelect1"
+                    onclick="getdata()" name="from">
+
+                {% for category in user_category %}
+
+                    <option
+                            value="{{ category.name }}">{{ category.name }}
+                        : {{ category.type }}</option>
+
+                {% endfor %}
+            </select>
+        </div>
+
+        {% csrf_token %}
+
+
+        <div class="form-group">
+
+            <label for="exampleFormControlSelect1">To</label>
+            <select class="form-control" id="exampleFormControlSelect1"
+                    name="to">
+
+                {% for category in user_category %}
+
+                    <option value="{{ category.name }}">{{ category.name }}
+                        : {{ category.type }}</option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <div>
+            <label for="exampleFormControlSelect1">Value</label>
+            <input class="form-control" type="number" name="value"
+                   placeholder="Default input">
+        </div>
+
+        <div class="form-group">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Date</label>
+                            <div class="input-group date" id="datetimepicker1"
+                                 data-target-input="nearest">
+                                {# TODO enable hour change #}
+                                <input type="text" name="date"
+                                       onkeydown="return false"
+                                       class="form-control datetimepicker-input"
+                                       data-target="#datetimepicker1"/>
+                                <div class="input-group-append"
+                                     data-target="#datetimepicker1"
+                                     data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i
+                                            class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#datetimepicker1').datetimepicker({format: '"dd MM yyyy - hh:ii"'});
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <input class="btn btn-primary" type="submit">
+    </form>
+
+    <script>
+        function getdata() {
+            {#var select1 = document.getElementById('exampleFormControlSelect1').innerText;#}
+            {#alert(select1)#}
+        }
+    </script>
+
+{% endblock %}
+
+</body>
+</html>
