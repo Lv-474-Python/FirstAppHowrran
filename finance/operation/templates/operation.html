@@ -9,8 +9,11 @@
 </head>
 <body>
 {% block body %}
+
+    <p align="center" style="margin-top: 10px"><a class='btn btn-primary'
+          href="{% url 'operation_create' %}">Create new operation</a></p>
     <h1 align="center">Operations</h1>
-    <a href="{% url 'operation_create' %}">Create new operation</a>
+
     <table class="table">
         <thead>
         <tr>
