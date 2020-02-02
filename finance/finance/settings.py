@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'account',
     'category',
     'operation',
+    'statistic',
 ]
+
 AUTH_USER_MODEL = "account.CustomUser"
 LOGIN_URL='/account/login/'
 
