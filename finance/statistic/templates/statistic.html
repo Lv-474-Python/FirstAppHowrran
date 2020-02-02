@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <title>Statistic</title>
+    {% endblock %}
+</head>
+<body>
+    {% block body %}
+        <h1>WELCOME TO STATISTIC</h1>
+        <p>Total Income: {{ income }}</p>
+        <p>Total Outcome: {{ outcome }}</p>
+        <p>Current: {{ current }}</p>
+    {% endblock %}
+</body>
+</html>
