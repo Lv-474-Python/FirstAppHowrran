@@ -21,7 +21,9 @@ class Category(models.Model):
     @staticmethod
     def create(user_id, name, type, description, month_limit=999_999_999_999):
         '''create new category in database'''
-        category = Category(user_id=user_id, name=name, type=type,
+        category = Category(user_id=user_id,
+                            name=name,
+                            type=type,
                             description=description,
                             month_limit=month_limit)
 
@@ -38,16 +40,22 @@ class Category(models.Model):
         except ObjectDoesNotExist:
             return None
 
-    @staticmethod
-    def update(id, data):
-        category = Category.objects.get(id=id)
+    def update(self, name=None, type=None, month_limit=None, description=None):
 
-        for key, value in data.items():
-            category.__dict__[key] = value
+        if name:
+            self.name = name
+        if type:
+            self.type = type
+
+        if month_limit:
+            self.month_limit = month_limit
+
+        if description:
+            self.description = description
 
         try:
-            category.save()
-            return category
+            self.save()
+            return self
         except IntegrityError:
             return None
 

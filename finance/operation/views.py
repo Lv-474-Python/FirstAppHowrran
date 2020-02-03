@@ -4,8 +4,11 @@ from .models import Operation
 
 
 def home_view(request):
+
+    #a = Operation.get_user_operation_by_category(request.user)
     user_operation = Operation.get_user_operation(request.user.id)
-    return render(request, 'operation.html', {'user_operation':user_operation})
+    return render(request, 'operation.html',
+                  {'user_operation': user_operation})
 
 
 def create_view(request):
@@ -17,8 +20,12 @@ def create_view(request):
 
         print(f'{to_category=} {from_category=} {value=} {date=}')
 
-        from_category_obj = Category.get_category_by_name(user_id=request.user, name=from_category)
-        to_category_obj = Category.get_category_by_name(user_id=request.user, name=to_category)
+        from_category_obj = Category.get_category_by_name(user_id=request.user,
+                                                          name=from_category)
+        to_category_obj = Category.get_category_by_name(user_id=request.user,
+                                                        name=to_category)
+        if from_category_obj.type == to_category_obj.type:
+            pass
 
         Operation.create(from_category_obj, to_category_obj, value, date)
         return redirect('operation_home')

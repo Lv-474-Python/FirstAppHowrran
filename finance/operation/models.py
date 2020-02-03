@@ -26,7 +26,7 @@ class Operation(models.Model):
         else:
             operation = Operation(from_category=from_category,
                                   to_category=to_category,
-                                  value=value, )
+                                  value=value)
 
         try:
             operation.save()
@@ -79,3 +79,25 @@ class Operation(models.Model):
             return income - outcome
         except ObjectDoesNotExist:
             return None
+
+    @staticmethod
+    def get_user_operation_by_category(user_id, category):
+        operation_list = Operation.get_user_operation(user_id)
+
+        data = []
+
+        for operation in operation_list:
+            if operation.from_category.name == category:
+                data.append(operation)
+        print(data)
+        return data
+
+        # categories = Category.get_user_category(user_id)
+        # data = {key:[] for key in categories}
+        # # print(categories)
+        # print(data)
+        # if operation_list:
+        #     for i in operation_list:
+        #         # print(i.from_category.name)
+        #
+        #

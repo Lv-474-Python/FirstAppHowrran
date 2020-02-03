@@ -37,31 +37,27 @@ def create_view(request):
 @login_required()
 def edit_view(request, category_id):
     category = Category.get_category(id=category_id)
-    if category:
-        if request.method == 'POST':
 
-            data = {
-                'category_id': category_id,
-                'name': request.POST.get('name'),
-                'type': request.POST.get('category_type'),
-                'month_limit': request.POST.get('month_limit'),
-                'description': request.POST.get('description')
-            }
+    if not category:
+        return HttpResponse('not found')
 
-            change_data = dict()
-
-            for key, value in data.items():
-                if value and value != category_id:
-                    change_data[key] = value
-
-            Category.update(category_id, change_data)
-            return redirect('category_home')
-
-        if category.user_id == request.user:
-            return render(request, 'category_edit.html',
-                          {'category': category})
+    if category.user_id != request.user:
         return HttpResponse('not allowed')
-    return HttpResponse('not found')
+
+    if request.method == 'POST':
+        data = {
+            'name': request.POST.get('name'),
+            'type': request.POST.get('category_type'),
+            'month_limit': request.POST.get('month_limit'),
+            'description': request.POST.get('description')
+        }
+
+        category.update(**data)
+        return redirect('category_home')
+
+    return render(request,
+                  'category_edit.html',
+                  {'category': category})
 
 
 @login_required()

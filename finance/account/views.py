@@ -48,7 +48,7 @@ def login_view(request):
 
     if user and user.is_active:
         login(request, user)
-        return redirect('home_account')
+        return redirect('category_home')
 
     return redirect('login')
 
@@ -72,6 +72,6 @@ def change_password_view(request):
                                               new_password=new_password)
             update_session_auth_hash(request, user)
 
-            return redirect('home_account')
+            return redirect('category_home')
 
     return render(request, 'change_password.html')
