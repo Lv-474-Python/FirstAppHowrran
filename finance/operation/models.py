@@ -56,20 +56,18 @@ class Operation(models.Model):
         except ObjectDoesNotExist:
             return None
 
-
     @staticmethod
     def get_user_outcome(user_id):
         try:
             operation_list = Operation.objects.filter(
-                from_category__user_id=user_id,
-                from_category__type='Outcome')
+                to_category__user_id=user_id,
+                to_category__type='Outcome')
             outcome = 0
             for i in operation_list:
                 outcome += i.value
             return outcome
         except ObjectDoesNotExist:
             return None
-
 
     @staticmethod
     def get_user_current(user_id):
@@ -81,23 +79,43 @@ class Operation(models.Model):
             return None
 
     @staticmethod
-    def get_user_operation_by_category(user_id, category):
+    def get_user_operation_by_category(user_id, category_id):
         operation_list = Operation.get_user_operation(user_id)
-
+        category = Category.get_category(category_id)
         data = []
 
         for operation in operation_list:
-            if operation.from_category.name == category:
+            if operation.from_category.name == category.name or operation.to_category.name == category.name:
                 data.append(operation)
         print(data)
         return data
 
-        # categories = Category.get_user_category(user_id)
-        # data = {key:[] for key in categories}
-        # # print(categories)
-        # print(data)
-        # if operation_list:
-        #     for i in operation_list:
-        #         # print(i.from_category.name)
-        #
-        #
+    @staticmethod
+    def get_user_category_income(user_id, category_id):
+        try:
+            category = Category.get_category(category_id)
+            operation_list = Operation.objects.filter(
+                to_category__user_id=user_id,
+                to_category__name=category.name)
+
+            income = 0
+            for i in operation_list:
+                print(i.to_category)
+                income += i.value
+            return income
+        except ObjectDoesNotExist:
+            return None
+
+    @staticmethod
+    def get_user_category_outcome(user_id, category_id):
+        try:
+            category = Category.get_category(category_id)
+            operation_list = Operation.objects.filter(
+                from_category__user_id=user_id,
+                from_category__name=category.name)
+            outcome = 0
+            for i in operation_list:
+                outcome += i.value
+            return outcome
+        except ObjectDoesNotExist:
+            return None

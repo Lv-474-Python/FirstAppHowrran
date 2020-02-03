@@ -13,6 +13,10 @@
         <p>Total Income: {{ income }}</p>
         <p>Total Outcome: {{ outcome }}</p>
         <p>Current: {{ current }}</p>
+        {% for category in user_category %}
+
+            <a href="{% url 'statistic_category' category_id=category.id %}"> {{ category.name }} </a>
+        {% endfor %}
     {% endblock %}
 </body>
 </html>

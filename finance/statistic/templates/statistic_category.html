@@ -1,10 +1,45 @@
+{% extends 'navbar.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+    {% block head %}
+        <title>Title</title>
+    {% endblock %}
 </head>
 <body>
-$END$
+
+    {% block body %}
+    <h1>{{ category_name }}</h1>
+    <h2>Income: {{ category_income }}</h2>
+    <h2>Outcome: {{ category_outcome }}</h2>
+
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            <th scope="col">Value</th>
+            <th scope="col">Date</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for operation in operation_list %}
+            <tr>
+                <td>{{ operation.from_category.name }}</td>
+                <td>{{ operation.to_category.name }}</td>
+                <td>{{ operation.value }}</td>
+                <td>{{ operation.date }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+
+    {% endblock %}
 </body>
 </html>
