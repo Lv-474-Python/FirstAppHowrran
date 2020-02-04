@@ -1,0 +1,21 @@
+.statistic_head {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.statistic_head p {
+    font-size: 20px;
+}
+
+.piechart {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.piechart h4 {
+    display: flex;
+    justify-content: center;
+    margin-right: 50px;
+}

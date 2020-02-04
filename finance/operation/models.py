@@ -110,7 +110,6 @@ class Operation(models.Model):
         for operation in operation_list:
             if operation.from_category.name == category.name or operation.to_category.name == category.name:
                 data.append(operation)
-        print(data)
         return data
 
     @staticmethod
@@ -129,7 +128,6 @@ class Operation(models.Model):
 
             income = 0
             for i in operation_list:
-                print(i.to_category)
                 income += i.value
             return income
         except ObjectDoesNotExist:
@@ -170,4 +168,21 @@ class Operation(models.Model):
                 income.append(Operation.get_user_category_income(user_id,
                                                              category.id))
 
-        return (category_name,income)
+        return (category_name, income)
+
+    @staticmethod
+    def get_user_outcome_by_category(user_id):
+        '''
+
+        :param user_id:
+        :return: Outcome for each user category
+        '''
+        categories = Category.get_user_category(user_id)
+        category_name = [category.name for category in categories if category.type != 'Current']
+        outcome = []
+        for category in categories:
+            if category.type != 'Current':
+                outcome.append(Operation.get_user_category_outcome(user_id,
+                                                             category.id))
+
+        return (category_name, outcome)

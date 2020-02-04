@@ -1,26 +1,39 @@
 {% extends 'navbar.html' %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     {% block head %}
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <link rel="stylesheet"
+              href="{% static 'statistic/statistic/css/style.css' %}">
         <title>Statistic</title>
     {% endblock %}
 </head>
 <body>
 {% block body %}
-    <h1>WELCOME TO STATISTIC</h1>
-    <p>Total Income: {{ income }}</p>
-    <p>Total Outcome: {{ outcome }}</p>
-    <p>Current: {{ current }}</p>
+    <div class="statistic_head">
+        <h1>WELCOME TO STATISTIC</h1>
+        <p>Total Income: {{ income }}</p>
+        <p>Total Outcome: {{ outcome }}</p>
+        <p>Current: {{ current }}</p>
+    </div>
+
+    <div class="piechart">
+
+            {{ pie_income | safe }}
+
+            {{ pie_outcome | safe }}
+        </div>
+    </div>
     {% for category in user_category %}
 
         <a style="margin-left: 10px"
            href="{% url 'statistic_category' category_id=category.id %}"> {{ category.name }} </a>
     {% endfor %}
 
-    {{ chart | safe }}
+
 {% endblock %}
 </body>
 </html>

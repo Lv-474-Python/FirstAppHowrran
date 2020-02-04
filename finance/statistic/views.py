@@ -7,10 +7,45 @@ import plotly.express as px
 
 def home_view(request):
     categories, income = Operation.get_user_income_by_category(request.user)
+    categories2, outcome2 = Operation.get_user_outcome_by_category(
+        request.user)
 
-    fig = px.pie(categories, categories, income, width=400, height=400)
+    fig_income = px.pie(categories,
+                        categories,
+                        income,
+                        title={
+                            'text': "Income",
+                            'y': 0.9,
+                            'x': 0.45,
+                            'xanchor': 'center',
+                            'yanchor': 'top',
+                            'font': {'family': 'Arial',
+                                     'size': 20
+                                     }
+                        },
+
+                        width=500,
+                        height=450)
+
+    fig_outcome = px.pie(categories2,
+                         categories2,
+                         outcome2,
+                         title={
+                             'text': "Outcome",
+                             'y': 0.9,
+                             'x': 0.45,
+                             'xanchor': 'center',
+                             'yanchor': 'top',
+                             'font': {'family': 'Arial',
+                                      'size': 20
+                                      }
+                         },
+                         width=500,
+                         height=450)
+
     # plot(fig, filename='statistic/templates/piechart_income')
-    chart = plot(fig, output_type='div', )
+    pie_income = plot(fig_income, output_type='div')
+    pie_outcome = plot(fig_outcome, output_type='div')
 
     income = Operation.get_user_income(request.user)
     outcome = Operation.get_user_outcome(request.user)
@@ -20,18 +55,19 @@ def home_view(request):
 
     request.session['current'] = current
 
-    return render(request, 'statistic.html',
+    return render(request,
+                  'statistic.html',
                   {'income': income,
                    'outcome': outcome,
                    'current': current,
                    'operation_list': operation_list,
                    'user_category': user_category,
-                   'chart':chart})
+                   'pie_income': pie_income,
+                   'pie_outcome': pie_outcome})
 
 
 def statistic_category_view(request, category_id):
     category = Category.get_category(category_id)
-    category_name = category.name
     operation_list = Operation.get_user_operation_by_category(request.user,
                                                               category_id)
     category_income = Operation.get_user_category_income(request.user,
