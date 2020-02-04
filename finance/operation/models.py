@@ -17,7 +17,14 @@ class Operation(models.Model):
 
     @staticmethod
     def create(from_category, to_category, value, date):
+        '''
 
+        :param from_category: Category where money coming from
+        :param to_category: Category where money coming to
+        :param value: Amount of money
+        :param date: Date of the transaction
+        :return: New operation or None
+        '''
         if date:
             operation = Operation(from_category=from_category,
                                   to_category=to_category,
@@ -45,10 +52,15 @@ class Operation(models.Model):
 
     @staticmethod
     def get_user_income(user_id):
+        '''
+
+        :param user_id:
+        :return: All user income
+        '''
         try:
             operation_list = Operation.objects.filter(
                 from_category__user_id=user_id,
-                from_category__type='Income')
+                to_category__type='Current')
             income = 0
             for i in operation_list:
                 income += i.value
@@ -58,10 +70,15 @@ class Operation(models.Model):
 
     @staticmethod
     def get_user_outcome(user_id):
+        '''
+
+        :param user_id:
+        :return: All user outcome
+        '''
         try:
             operation_list = Operation.objects.filter(
                 to_category__user_id=user_id,
-                to_category__type='Outcome')
+                from_category__type='Current')
             outcome = 0
             for i in operation_list:
                 outcome += i.value
@@ -80,6 +97,12 @@ class Operation(models.Model):
 
     @staticmethod
     def get_user_operation_by_category(user_id, category_id):
+        '''
+
+        :param user_id:
+        :param category_id:
+        :return: All operations with category
+        '''
         operation_list = Operation.get_user_operation(user_id)
         category = Category.get_category(category_id)
         data = []
@@ -92,11 +115,17 @@ class Operation(models.Model):
 
     @staticmethod
     def get_user_category_income(user_id, category_id):
+        '''
+
+        :param user_id:
+        :param category_id:
+        :return: Income of the category
+        '''
         try:
             category = Category.get_category(category_id)
             operation_list = Operation.objects.filter(
-                to_category__user_id=user_id,
-                to_category__name=category.name)
+                from_category__user_id=user_id,
+                from_category__name=category.name)
 
             income = 0
             for i in operation_list:
@@ -108,14 +137,37 @@ class Operation(models.Model):
 
     @staticmethod
     def get_user_category_outcome(user_id, category_id):
+        '''
+
+        :param user_id:
+        :param category_id:
+        :return: Outcome of the category
+        '''
         try:
             category = Category.get_category(category_id)
             operation_list = Operation.objects.filter(
-                from_category__user_id=user_id,
-                from_category__name=category.name)
+                to_category__user_id=user_id,
+                to_category__name=category.name)
             outcome = 0
             for i in operation_list:
                 outcome += i.value
             return outcome
         except ObjectDoesNotExist:
             return None
+
+    @staticmethod
+    def get_user_income_by_category(user_id):
+        '''
+
+        :param user_id:
+        :return: Income for each user category
+        '''
+        categories = Category.get_user_category(user_id)
+        category_name = [category.name for category in categories if category.type != 'Current']
+        income = []
+        for category in categories:
+            if category.type != 'Current':
+                income.append(Operation.get_user_category_income(user_id,
+                                                             category.id))
+
+        return (category_name,income)

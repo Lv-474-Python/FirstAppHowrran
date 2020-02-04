@@ -9,11 +9,15 @@
 </head>
 <body>
 
-    {% block body %}
-    <h1>{{ category_name }}</h1>
-    <h2>Income: {{ category_income }}</h2>
-    <h2>Outcome: {{ category_outcome }}</h2>
-
+{% block body %}
+    <h1 align="center">{{ category.name }}</h1>
+    {% if category.type == 'Current'  %}
+        <h2 align="center">Income: {{ category_outcome }}</h2>
+        <h2 align="center">Outcome: {{ category_income }}</h2>
+    {% else %}
+        <h2 align="center">Income: {{ category_income }}</h2>
+        <h2 align="center">Outcome: {{ category_outcome }}</h2>
+    {% endif %}
 
 
     <table class="table">
@@ -40,6 +44,6 @@
     </table>
 
 
-    {% endblock %}
+{% endblock %}
 </body>
 </html>

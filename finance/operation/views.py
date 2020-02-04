@@ -5,8 +5,7 @@ from django.http import JsonResponse, HttpResponse
 
 
 def home_view(request):
-
-    #a = Operation.get_user_operation_by_category(request.user)
+    # a = Operation.get_user_operation_by_category(request.user)
     user_operation = Operation.get_user_operation(request.user.id)
     return render(request, 'operation.html',
                   {'user_operation': user_operation})
@@ -27,12 +26,13 @@ def create_view(request):
                                                           name=from_category)
         to_category_obj = Category.get_category_by_name(user_id=request.user,
                                                         name=to_category)
-        if from_category_obj.type == to_category_obj.type:
-            return HttpResponse('DONT CHOOSE SAME TYPE')
+
+        if from_category_obj.type == to_category_obj.type or (
+                from_category_obj.type != "Current"
+                and to_category_obj.type != 'Current'):
+            return HttpResponse('ONE CATEGORY MUST BE CURRENT')
         Operation.create(from_category_obj, to_category_obj, value, date)
         return redirect('operation_home')
-
-
 
     return render(request, 'operation_create.html',
                   {'user_category': user_category})
