@@ -27,11 +27,14 @@
 <body>
 {% block body %}
 
+    <h1 align="center"><strong>Operation must be From\To Current! </strong>
+    </h1>
+
     <form class="operation_create" action="" method="POST">
 
         <div class="form-group">
 
-            <label for="exampleFormControlSelect1">From</label>
+            <label style="margin-left: 10px" for="exampleFormControlSelect1">From</label>
             <select class="form-control" id="exampleFormControlSelect1"
                     onclick="getdata()" name="from">
 
@@ -50,7 +53,7 @@
 
         <div class="form-group">
 
-            <label for="exampleFormControlSelect1">To</label>
+            <label style="margin-left: 10px" for="exampleFormControlSelect1">To</label>
             <select class="form-control" id="exampleFormControlSelect2"
                     name="to">
 
@@ -64,36 +67,39 @@
         </div>
 
         <div>
-            <label for="exampleFormControlSelect1">Value</label>
+            <label style="margin-left: 10px" for="exampleFormControlSelect1">Value</label>
             <input class="form-control" type="number" name="value"
                    placeholder="Default input" required>
         </div>
 
         {# TODO change date format #}
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <div class="input-group date" id="datetimepicker2"
-                             data-target-input="nearest">
-                            <input type="text"
-                                   class="form-control datetimepicker-input"
-                                   data-target="#datetimepicker2"/>
-                            <div class="input-group-append"
-                                 data-target="#datetimepicker2"
-                                 data-toggle="datetimepicker">
-                                <div class="input-group-text"><i
-                                        class="fa fa-calendar"></i></div>
+
+        <div style="margin-top: 25px" >
+            <label style="margin-left: 10px" for="exampleFormControlSelect1">Date</label>
+            <div class="container" style="margin-left: -10px">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="input-group date" id="datetimepicker2"
+                                 data-target-input="nearest">
+                                <input type="text"
+                                       class="form-control datetimepicker-input"
+                                       data-target="#datetimepicker2"/>
+                                <div class="input-group-append"
+                                     data-target="#datetimepicker2"
+                                     data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i
+                                            class="fa fa-calendar"></i></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#datetimepicker2').datetimepicker({
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#datetimepicker2').datetimepicker({});
                         });
-                    });
-                </script>
+                    </script>
+                </div>
             </div>
         </div>
 

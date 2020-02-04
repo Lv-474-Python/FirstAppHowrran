@@ -8,15 +8,17 @@ import plotly.express as px
 def home_view(request):
     categories, income = Operation.get_user_income_by_category(request.user)
 
-    fig = px.pie(categories, categories, income)
+    fig = px.pie(categories, categories, income, width=400, height=400)
     # plot(fig, filename='statistic/templates/piechart_income')
-    chart = plot(fig, output_type='div')
+    chart = plot(fig, output_type='div', )
 
     income = Operation.get_user_income(request.user)
     outcome = Operation.get_user_outcome(request.user)
     current = Operation.get_user_current(request.user)
     operation_list = Operation.get_user_operation(request.user)
     user_category = Category.get_user_category(request.user)
+
+    request.session['current'] = current
 
     return render(request, 'statistic.html',
                   {'income': income,
