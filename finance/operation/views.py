@@ -20,8 +20,6 @@ def create_view(request):
         value = request.POST.get('value')
         date = request.POST.get('date')
 
-        print(f'{to_category=} {from_category=} {value=} {date=}')
-
         from_category_obj = Category.get_category_by_name(user_id=request.user,
                                                           name=from_category)
         to_category_obj = Category.get_category_by_name(user_id=request.user,

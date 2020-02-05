@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator
 from django.db import models, IntegrityError
 from category.models import Category
 
+import datetime
 
 class Operation(models.Model):
     from_category = models.ForeignKey(Category, related_name='from_category',
@@ -14,6 +15,10 @@ class Operation(models.Model):
 
     class Meta:
         db_table = 'tbl_operation'
+
+    def __str__(self):
+        return f'{self.from_category=} {self.to_category=} {self.value=} {self.date=}'
+
 
     @staticmethod
     def create(from_category, to_category, value, date):
@@ -41,6 +46,7 @@ class Operation(models.Model):
         except IntegrityError:
             return None
 
+
     @staticmethod
     def get_user_operation(user_id):
         try:
@@ -49,6 +55,7 @@ class Operation(models.Model):
             return list(operation_list)
         except ObjectDoesNotExist:
             return None
+
 
     @staticmethod
     def get_user_income(user_id):
@@ -68,6 +75,7 @@ class Operation(models.Model):
         except ObjectDoesNotExist:
             return None
 
+
     @staticmethod
     def get_user_outcome(user_id):
         '''
@@ -86,6 +94,7 @@ class Operation(models.Model):
         except ObjectDoesNotExist:
             return None
 
+
     @staticmethod
     def get_user_current(user_id):
         try:
@@ -94,6 +103,7 @@ class Operation(models.Model):
             return income - outcome
         except ObjectDoesNotExist:
             return None
+
 
     @staticmethod
     def get_user_operation_by_category(user_id, category_id):
@@ -111,6 +121,7 @@ class Operation(models.Model):
             if operation.from_category.name == category.name or operation.to_category.name == category.name:
                 data.append(operation)
         return data
+
 
     @staticmethod
     def get_user_category_income(user_id, category_id):
@@ -133,6 +144,7 @@ class Operation(models.Model):
         except ObjectDoesNotExist:
             return None
 
+
     @staticmethod
     def get_user_category_outcome(user_id, category_id):
         '''
@@ -141,6 +153,7 @@ class Operation(models.Model):
         :param category_id:
         :return: Outcome of the category
         '''
+
         try:
             category = Category.get_category(category_id)
             operation_list = Operation.objects.filter(
@@ -152,6 +165,7 @@ class Operation(models.Model):
             return outcome
         except ObjectDoesNotExist:
             return None
+
 
     @staticmethod
     def get_user_income_by_category(user_id):
@@ -170,6 +184,7 @@ class Operation(models.Model):
 
         return (category_name, income)
 
+
     @staticmethod
     def get_user_outcome_by_category(user_id):
         '''
@@ -186,3 +201,61 @@ class Operation(models.Model):
                                                              category.id))
 
         return (category_name, outcome)
+
+
+    @staticmethod
+    def get_category_income_per_month(user_id, category_id):
+
+        income_per_month = { key: 0 for key in range(1, 13)}
+        category = Category.get_category(category_id)
+
+        current_date = datetime.datetime.today()
+        current_year = current_date.year
+        current_month = current_date.month
+
+        for i in range(current_month + 1, 13):
+            a = list(Operation.objects.filter(from_category__user_id=user_id,
+                                              from_category=category.id,
+                                              date__month=i,
+                                              date__year=current_year - 1))
+
+            income_per_month[i] = sum(j.value for j in a)
+
+        for i in range(1, current_month + 1):
+            a = list(Operation.objects.filter(from_category__user_id=user_id,
+                                              from_category=category.id,
+                                              date__month=i,
+                                              date__year=current_year))
+
+            income_per_month[i] = sum(j.value for j in a)
+
+        return income_per_month
+
+
+    @staticmethod
+    def get_category_outcome_per_month(user_id, category_id):
+
+        outcome_per_month = { key: 0 for key in range(1, 13)}
+        category = Category.get_category(category_id)
+
+        current_date = datetime.datetime.today()
+        current_year = current_date.year
+        current_month = current_date.month
+
+        for i in range(current_month + 1, 13):
+            a = list(Operation.objects.filter(to_category__user_id=user_id,
+                                              to_category=category.id,
+                                              date__month=i,
+                                              date__year=current_year - 1))
+
+            outcome_per_month[i] = sum(j.value for j in a)
+
+        for i in range(1, current_month + 1):
+            a = list(Operation.objects.filter(to_category__user_id=user_id,
+                                              to_category=category.id,
+                                              date__month=i,
+                                              date__year=current_year))
+
+            outcome_per_month[i] = sum(j.value for j in a)
+
+        return outcome_per_month
