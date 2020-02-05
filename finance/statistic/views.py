@@ -3,6 +3,7 @@ from operation.models import Operation
 from category.models import Category
 from plotly.offline import plot
 
+import datetime
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -79,36 +80,54 @@ def statistic_category_view(request, category_id):
     category_outcome = Operation.get_user_category_outcome(request.user,
                                                            category_id)
 
-    m = ['jvm', 'wewqe', 'weqweqfggg']
+    current_month = datetime.datetime.today().month
+    months1 = {1:'Jan', 2:'Feb', 3:'Mar', 4:'Apr', 5:'May', 6:'Jun',
+              7:'Jul', 8:'Aug', 9:'Sep', 10:'Oct', 11:'Nov', 12:'Dec'}
 
-    fig = go.Figure(data=[
-        go.Bar(name='Income', x=m, y=[2022,1400,5500]),
-        go.Bar(name='Outcome', x=m,y=[1789,1120,1000])
-    ])
+    months = [months1[(i % 12)] for i in range(current_month + 1, current_month + 13) if i != 12]
 
-    # Create and add slider
-    steps = []
-    for i in range(len(fig.data)):
-        step = dict(
-            method="restyle",
-            args=["visible", [False] * len(fig.data)],
-        )
-        step["args"][1][i] = True  # Toggle i'th trace to "visible"
-        steps.append(step)
 
-    sliders = [dict(
-        active=2,
-        currentvalue={"prefix": "Frequency: "},
-        pad={"t": 50},
-        steps=steps
-    )]
+    income_per_month1 = Operation.get_category_income_per_month(request.user,
+                                                               category_id)
+    income_per_month = {}
+    for i in range(current_month + 1, current_month + 13):
+        if i == 12: continue
+        i %= 12
+        income_per_month[i] = income_per_month1[i]
 
-    fig.update_layout(barmode='group', sliders=sliders)
-    fig.show()
+    outcome_per_month1 = Operation.get_category_outcome_per_month(request.user,
+                                                                category_id)
+    outcome_per_month = {}
+    for i in range(current_month + 1, current_month + 13):
+        if i == 12: continue
+        i %= 12
+        outcome_per_month[i] = outcome_per_month1[i]
+
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(
+        x=months,
+        y=list(income_per_month.values()),
+        name='Income',
+        marker_color='indianred'
+    ))
+    fig.add_trace(go.Bar(
+        x=months,
+        y=list(outcome_per_month.values()),
+        name='Outcome',
+        marker_color='lightsalmon'
+    ))
+
+
+    fig.update_layout(barmode='group')
+
+    bar = plot(fig, output_type='div')
 
     return render(request,
                   'statistic_category.html',
                   {'category': category,
                    'operation_list': operation_list,
                    'category_income': category_income,
-                   'category_outcome': category_outcome})
+                   'category_outcome': category_outcome,
+                   'bar': bar})
