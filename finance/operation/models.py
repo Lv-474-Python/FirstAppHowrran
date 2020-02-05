@@ -158,7 +158,7 @@ class Operation(models.Model):
         '''
 
         :param user_id:
-        :return: Income for each user category
+        :return: tuple with category names and income of each category
         '''
         categories = Category.get_user_category(user_id)
         category_name = [category.name for category in categories if category.type != 'Current']
@@ -175,7 +175,7 @@ class Operation(models.Model):
         '''
 
         :param user_id:
-        :return: Outcome for each user category
+        :return: tuple with category names and outcome of each category
         '''
         categories = Category.get_user_category(user_id)
         category_name = [category.name for category in categories if category.type != 'Current']

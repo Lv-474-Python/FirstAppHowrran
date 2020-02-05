@@ -1,9 +1,12 @@
 {% extends 'navbar.html' %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     {% block head %}
+        <link rel="stylesheet"
+              href="{% static 'operation/operation/css/style.css' %}">
         <title>Operation</title>
     {% endblock %}
 </head>
@@ -11,7 +14,8 @@
 {% block body %}
 
     <p align="center" style="margin-top: 10px"><a class='btn btn-primary'
-          href="{% url 'operation_create' %}">Create new operation</a></p>
+                                                  href="{% url 'operation_create' %}">Create
+        new operation</a></p>
     <h1 align="center">Operations</h1>
 
     <table class="table">
@@ -27,10 +31,33 @@
 
         {% for operation in user_operation %}
             <tr>
-                <td>{{ operation.from_category.name }}</td>
-                <td>{{ operation.to_category.name }}</td>
-                <td>{{ operation.value }}</td>
-                <td>{{ operation.date }}</td>
+                {% if operation.from_category.type == 'Current' %}
+                    <td>
+                        <a class='operation_list_link' href="{% url 'statistic_category' category_id=operation.from_category.id %}">
+                            {{ operation.from_category.name }}
+                        </a>
+                    </td>
+                    <td>
+                        <a class='operation_list_link' href="{% url 'statistic_category' category_id=operation.to_category.id %}">
+                            {{ operation.to_category.name }}
+                        </a>
+                    </td>
+                    <td>-{{ operation.value }}</td>
+                    <td> {{ operation.date }}</td>
+                {% else %}
+                    <td>
+                        <a class='operation_list_link' href="{% url 'statistic_category' category_id=operation.from_category.id %}">
+                            {{ operation.from_category.name }}
+                        </a>
+                    </td>
+                    <td>
+                        <a class='operation_list_link' href="{% url 'statistic_category' category_id=operation.to_category.id %}">
+                            {{ operation.to_category.name }}
+                        </a>
+                    </td>
+                    <td> {{ operation.value }}</td>
+                    <td> {{ operation.date }}</td>
+                {% endif %}
             </tr>
         {% endfor %}
 

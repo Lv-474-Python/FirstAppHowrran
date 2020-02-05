@@ -11,7 +11,7 @@
 
 {% block body %}
     <h1 align="center">{{ category.name }}</h1>
-    {% if category.type == 'Current'  %}
+    {% if category.type == 'Current' %}
         <h2 align="center">Income: {{ category_outcome }}</h2>
         <h2 align="center">Outcome: {{ category_income }}</h2>
     {% else %}
@@ -33,10 +33,17 @@
 
         {% for operation in operation_list %}
             <tr>
-                <td>{{ operation.from_category.name }}</td>
-                <td>{{ operation.to_category.name }}</td>
-                <td>{{ operation.value }}</td>
-                <td>{{ operation.date }}</td>
+                {% if operation.from_category.type == 'Current' %}
+                    <td> {{ operation.from_category.name }}</td>
+                    <td> {{ operation.to_category.name }}</td>
+                    <td>-{{ operation.value }}</td>
+                    <td> {{ operation.date }}</td>
+                {% else %}
+                    <td> {{ operation.from_category.name }}</td>
+                    <td> {{ operation.to_category.name }}</td>
+                    <td> {{ operation.value }}</td>
+                    <td> {{ operation.date }}</td>
+                {% endif %}
             </tr>
         {% endfor %}
 

@@ -13,7 +13,8 @@
 </head>
 <body>
 {% block body %}
-    <p align="center"><a id='id_create_new_category' class='btn btn-primary' href="{% url 'category_create' %}"> Create new
+    <p align="center"><a id='id_create_new_category' class='btn btn-primary'
+                         href="{% url 'category_create' %}"> Create new
         category</a></p>
 
     <div class="container">
@@ -25,7 +26,9 @@
                 <div class="category">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            Name: {{ category.name }}</li>
+                            Name: <a
+                                href="{% url 'statistic_category' category_id=category.id %}">{{ category.name }} </a>
+                        </li>
                         <li class="list-group-item">
                             Type: {{ category.type }}</li>
                         <li class="list-group-item"> Limit:
