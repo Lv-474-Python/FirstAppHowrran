@@ -11,7 +11,7 @@ class Operation(models.Model):
     to_category = models.ForeignKey(Category, related_name='to_category',
                                     on_delete=models.CASCADE)
     value = models.FloatField(MinValueValidator(0))
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(blank=True)
 
     class Meta:
         db_table = 'tbl_operation'
@@ -36,9 +36,12 @@ class Operation(models.Model):
                                   value=value,
                                   date=date)
         else:
+            date = datetime.datetime.today()
             operation = Operation(from_category=from_category,
                                   to_category=to_category,
-                                  value=value)
+                                  value=value,
+                                  date=date
+                                  )
 
         try:
             operation.save()
@@ -205,7 +208,13 @@ class Operation(models.Model):
 
     @staticmethod
     def get_category_income_per_month(user_id, category_id):
+        '''
 
+        :param user_id:
+        :param category_id:
+        :return: dict with income per month
+        {month:income}
+        '''
         income_per_month = { key: 0 for key in range(1, 13)}
         category = Category.get_category(category_id)
 
@@ -234,6 +243,13 @@ class Operation(models.Model):
 
     @staticmethod
     def get_category_outcome_per_month(user_id, category_id):
+        '''
+
+        :param user_id:
+        :param category_id:
+        :return: dict with outcome per month
+        {month:outcome}
+        '''
 
         outcome_per_month = { key: 0 for key in range(1, 13)}
         category = Category.get_category(category_id)

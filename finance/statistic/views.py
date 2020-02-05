@@ -70,7 +70,14 @@ def home_view(request):
 
 
 def statistic_category_view(request, category_id):
+    '''
 
+    :param request:
+    :param category_id:
+    :return: list of category operations, category total income/outcome
+     and bar plot of income\outcome of the category for the last year
+
+    '''
     category = Category.get_category(category_id)
     operation_list = Operation.get_user_operation_by_category(request.user,
                                                               category_id)
@@ -116,7 +123,7 @@ def statistic_category_view(request, category_id):
         x=months,
         y=list(outcome_per_month.values()),
         name='Outcome',
-        marker_color='lightsalmon'
+        marker_color='blue'
     ))
 
 
