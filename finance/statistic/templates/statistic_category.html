@@ -1,10 +1,13 @@
 {% extends 'navbar.html' %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     {% block head %}
-        <title>{{category.name}} Statistic</title>
+        <title>{{ category.name }} Statistic</title>
+        <link rel="stylesheet"
+              href="{% static 'statistic/statistic_category/css/style.css' %}">
     {% endblock %}
 </head>
 <body>
@@ -19,8 +22,9 @@
         <h2 align="center">Outcome: {{ category_outcome }}</h2>
     {% endif %}
 
-    {{ bar | safe }}
-
+    <div class="bar">
+        {{ bar | safe }}
+    </div>
 
     <table class="table">
         <thead>

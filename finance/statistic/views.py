@@ -91,23 +91,29 @@ def statistic_category_view(request, category_id):
     months1 = {1:'Jan', 2:'Feb', 3:'Mar', 4:'Apr', 5:'May', 6:'Jun',
               7:'Jul', 8:'Aug', 9:'Sep', 10:'Oct', 11:'Nov', 12:'Dec'}
 
-    months = [months1[(i % 12)] for i in range(current_month + 1, current_month + 13) if i != 12]
+    # make list of months from the past year to current
+    # E.G. if today is February:
+    # months = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+    #           'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb']
 
+    months = [months1[(i % 13)] for i in range(current_month + 1,
+                                               current_month + 14) if i != 13]
 
+    print(months)
     income_per_month1 = Operation.get_category_income_per_month(request.user,
                                                                category_id)
     income_per_month = {}
-    for i in range(current_month + 1, current_month + 13):
-        if i == 12: continue
-        i %= 12
+    for i in range(current_month + 1, current_month + 14):
+        if i == 13: continue
+        i %= 13
         income_per_month[i] = income_per_month1[i]
 
     outcome_per_month1 = Operation.get_category_outcome_per_month(request.user,
                                                                 category_id)
     outcome_per_month = {}
-    for i in range(current_month + 1, current_month + 13):
-        if i == 12: continue
-        i %= 12
+    for i in range(current_month + 1, current_month + 14):
+        if i == 13: continue
+        i %= 13
         outcome_per_month[i] = outcome_per_month1[i]
 
 
@@ -127,7 +133,7 @@ def statistic_category_view(request, category_id):
     ))
 
 
-    fig.update_layout(barmode='group')
+    fig.update_layout(barmode='group', width=1425, height=600)
 
     bar = plot(fig, output_type='div')
 
