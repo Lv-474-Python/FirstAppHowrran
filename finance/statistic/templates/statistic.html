@@ -28,12 +28,6 @@
             {{ pie_outcome | safe }}
         </div>
     </div>
-    {% for category in user_category %}
-
-        <a style="margin-left: 10px"
-           href="{% url 'statistic_category' category_id=category.id %}"> {{ category.name }} </a>
-    {% endfor %}
-
 
 {% endblock %}
 </body>

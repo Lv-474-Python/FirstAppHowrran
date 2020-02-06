@@ -56,7 +56,19 @@ def home_view(request):
         marker_color='blue'
     ))
 
-    fig.update_layout(barmode='group', width=1425, height=600)
+    fig.update_layout(barmode='group',
+                      title={
+                          'text': "Total Income\Outcome",
+                          'y': 0.9,
+                          'x': 0.5,
+                          'xanchor': 'center',
+                          'yanchor': 'top',
+                          'font': {'family': 'Arial',
+                                   'size': 20
+                                   }
+                      },
+                      width=1425,
+                      height=600)
 
     # html <div> with Bar Chart
     bar = plot(fig, output_type='div')

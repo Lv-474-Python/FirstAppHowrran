@@ -1,0 +1,22 @@
+.category_create {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    align-content: space-between;
+}
+
+.my_input {
+    /*display: flex;*/
+
+    align-content: flex-end;
+    justify-content: center;
+    width: 50%;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    margin-bottom: 35px;
+}

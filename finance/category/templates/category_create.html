@@ -1,10 +1,12 @@
 {% extends 'navbar.html' %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     {% block head %}
-        <meta charset="UTF-8">
+        <link rel="stylesheet"
+              href="{% static 'category/category_create/css/style.css' %}">
         <title>Create Category</title>
 
     {% endblock %}
@@ -12,29 +14,60 @@
 <body>
 {% block body %}
 
-    <div class='container'
-         style="margin-top: 15px;display: flex;flex-direction: column; align-items: center;">
+    <div class='container'>
         <h1>Add New Category</h1>
-        <form action="" method="POST">
+
+        <form class="category_create" action="" method="POST">
             {% csrf_token %}
-            <p> Category Name: <input type="text" name="name" maxlength="50" required></p>
-            <p>Choose category type:
-                <select name="category_type">
+
+            <div class="my_input form-group">
+                <label class="input_label"
+                       for="exampleFormControlSelect1">Category Name:</label>
+                <br>
+                <input class="form-control" type="text" name="name"
+                       maxlength="50"
+                       placeholder="Category Name" required>
+            </div>
+
+            <div class="my_input form-group">
+
+                <label class="input_label"
+                       for="exampleFormControlSelect1">Choose Category
+                    Type:</label>
+                <br>
+                <select class="form-control" id="exampleFormControlSelect2"
+                        name="category_type">
                     <option value="Income">Income</option>
                     <option value="Current">Current</option>
                     <option value="Outcome" selected>Outcome</option>
+
                 </select>
-            </p>
-            <p>Month limit (optional):
-                <input name='month_limit' type="number" min="1">
-            </p>
-            <p>Description:</p>
-            <input style="width: 350px"
-                    type="text" name="category_description"
-                   id="id_category_description"
-                   maxlength="58"
-                   placeholder='Enter Your Description'>
-            <p><br><input type="submit" class="submit_btn"></p>
+
+            </div>
+
+            <div class="my_input form-group">
+                <label class="input_label"
+                       for="exampleFormControlSelect1">Month Limit:</label>
+                <br>
+                <input class="form-control" type="number" name="month_limit"
+                       maxlength="50" min="1"
+                       placeholder="Optional for Outcome. Default is Unlimited">
+            </div>
+
+            <div class="my_input form-group">
+                <label class="input_label"
+                       for="exampleFormControlSelect1">Description:</label>
+                <br>
+                <input class="form-control" type="text"
+                       name="category_description"
+                       id="id_category_description"
+                       maxlength="58"
+                       placeholder='Enter Your Description'>
+            </div>
+
+            <input class="btn btn-primary" type="submit">
+
+
         </form>
     </div>
 {% endblock %}

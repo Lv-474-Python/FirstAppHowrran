@@ -16,6 +16,18 @@
     margin-top: 50px;
 }
 
+/*#fast_travel {*/
+/*    margin-top: 10px;*/
+/*    display: flex;*/
+/*    justify-content: flex-start;*/
+/*}*/
+.tags {
+    margin-top: 10px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+
+}
 a {
     color: black;
 }

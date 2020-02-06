@@ -13,15 +13,22 @@
 </head>
 <body>
 {% block body %}
-    {% for category in categories %}
 
-        <a style="margin-left: 10px"
-           href="#{{ category.name }}"> {{ category.name }} </a>
-    {% endfor %}
+    <div class="tags">
+        <span id="fast_travel">Fast travel to: </span>
+
+        {% for category in categories %}
+
+            <a style="margin-left: 10px"
+               href="#{{ category.name }}"> {{ category.name }} </a>
+        {% endfor %}
+
+    </div>
 
     {% for category in categories %}
         <a href="{% url 'statistic_category' category_id=category.id %}"><h1
-                class="header" id="{{ category.name }}" align="center">{{ category.name }}</h1></a>
+                class="header" id="{{ category.name }}"
+                align="center">{{ category.name }}</h1></a>
         {% if category.type == 'Current' %}
             <h2 align="center">
                 Income: {{ category_outcome|get_at_index:forloop.counter0 }} </h2>
