@@ -6,14 +6,22 @@
 <html lang="en">
 <head>
     {% block head %}
-        <link rel="stylesheet" href="{% static 'statistic/statistic_detail/css/style.css' %}">
+        <link rel="stylesheet"
+              href="{% static 'statistic/statistic_detail/css/style.css' %}">
         <title>Detail</title>
     {% endblock %}
 </head>
 <body>
 {% block body %}
     {% for category in categories %}
-        <h1 align="center">{{ category.name }}</h1>
+
+        <a style="margin-left: 10px"
+           href="#{{ category.name }}"> {{ category.name }} </a>
+    {% endfor %}
+
+    {% for category in categories %}
+        <a href="{% url 'statistic_category' category_id=category.id %}"><h1
+                class="header" id="{{ category.name }}" align="center">{{ category.name }}</h1></a>
         {% if category.type == 'Current' %}
             <h2 align="center">
                 Income: {{ category_outcome|get_at_index:forloop.counter0 }} </h2>

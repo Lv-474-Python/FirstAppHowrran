@@ -11,3 +11,11 @@
 .table td, th {
    text-align: center;
 }
+
+.header {
+    margin-top: 50px;
+}
+
+a {
+    color: black;
+}
