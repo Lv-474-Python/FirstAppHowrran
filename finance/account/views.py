@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, \
      update_session_auth_hash
@@ -15,6 +15,12 @@ def home_view(request):
 
 def registration_view(request):
     '''take arguments from registration form and create new user'''
+    if request.POST.get('check_username'):
+        if CustomUser.objects.filter(
+                username=str(request.POST['check_username'])):
+            return JsonResponse({'name_available': False})
+        return JsonResponse({'name_available': True})
+
     if request.method == 'POST':
         username = request.POST.get('username')
         name = request.POST.get('name')

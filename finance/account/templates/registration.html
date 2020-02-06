@@ -22,6 +22,7 @@
         <h1>Registration</h1>
         {% csrf_token %}
         <div class="txtb">
+              <a style="color:rgba(245, 0, 0, 0.7)" id="error-message"></a>
             <input type="text" name="username" minlength="3" maxlength="25"
                    onchange="check_name(this.value) " required>
             <span data-placeholder="Username"></span>
