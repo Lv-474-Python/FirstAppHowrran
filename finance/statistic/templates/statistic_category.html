@@ -40,13 +40,31 @@
         {% for operation in operation_list %}
             <tr>
                 {% if operation.from_category.type == 'Current' %}
-                    <td> {{ operation.from_category.name }}</td>
-                    <td> {{ operation.to_category.name }}</td>
+                    <td>
+                        <a class='operation_list_link'
+                           href="{% url 'statistic_category' category_id=operation.from_category.id %}">
+                            {{ operation.from_category.name }} </a>
+                    </td>
+                    <td>
+                        <a class='operation_list_link'
+                           href="{% url 'statistic_category' category_id=operation.to_category.id %}">
+                            {{ operation.to_category.name }}
+                        </a>
+                    </td>
                     <td>-{{ operation.value }}</td>
                     <td> {{ operation.date }}</td>
                 {% else %}
-                    <td> {{ operation.from_category.name }}</td>
-                    <td> {{ operation.to_category.name }}</td>
+                    <td>
+                        <a class='operation_list_link'
+                           href="{% url 'statistic_category' category_id=operation.from_category.id %}">
+                            {{ operation.from_category.name }} </a>
+                    </td>
+                    <td>
+                        <a class='operation_list_link'
+                           href="{% url 'statistic_category' category_id=operation.to_category.id %}">
+                            {{ operation.to_category.name }}
+                        </a>
+                    </td>
                     <td> {{ operation.value }}</td>
                     <td> {{ operation.date }}</td>
                 {% endif %}

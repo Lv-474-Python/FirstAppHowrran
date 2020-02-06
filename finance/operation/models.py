@@ -5,6 +5,7 @@ from category.models import Category
 
 import datetime
 
+
 class Operation(models.Model):
     from_category = models.ForeignKey(Category, related_name='from_category',
                                       on_delete=models.CASCADE)
@@ -17,8 +18,8 @@ class Operation(models.Model):
         db_table = 'tbl_operation'
 
     def __str__(self):
-        return f'{self.from_category=} {self.to_category=} {self.value=} {self.date=}'
-
+        return f'{self.from_category=} {self.to_category=} \
+         {self.value=} {self.date=}'
 
     @staticmethod
     def create(from_category, to_category, value, date):
@@ -49,7 +50,6 @@ class Operation(models.Model):
         except IntegrityError:
             return None
 
-
     @staticmethod
     def get_user_operation(user_id):
         try:
@@ -58,7 +58,6 @@ class Operation(models.Model):
             return list(operation_list)
         except ObjectDoesNotExist:
             return None
-
 
     @staticmethod
     def get_user_income(user_id):
@@ -78,7 +77,6 @@ class Operation(models.Model):
         except ObjectDoesNotExist:
             return None
 
-
     @staticmethod
     def get_user_outcome(user_id):
         '''
@@ -97,7 +95,6 @@ class Operation(models.Model):
         except ObjectDoesNotExist:
             return None
 
-
     @staticmethod
     def get_user_current(user_id):
         try:
@@ -106,7 +103,6 @@ class Operation(models.Model):
             return income - outcome
         except ObjectDoesNotExist:
             return None
-
 
     @staticmethod
     def get_user_operation_by_category(user_id, category_id):
@@ -121,10 +117,10 @@ class Operation(models.Model):
         data = []
 
         for operation in operation_list:
-            if operation.from_category.name == category.name or operation.to_category.name == category.name:
+            if operation.from_category.name == category.name \
+            or operation.to_category.name == category.name:
                 data.append(operation)
         return data
-
 
     @staticmethod
     def get_user_category_income(user_id, category_id):
@@ -132,7 +128,7 @@ class Operation(models.Model):
 
         :param user_id:
         :param category_id:
-        :return: Income of the category
+        :return: Total Income of the category
         '''
         try:
             category = Category.get_category(category_id)
@@ -146,7 +142,6 @@ class Operation(models.Model):
             return income
         except ObjectDoesNotExist:
             return None
-
 
     @staticmethod
     def get_user_category_outcome(user_id, category_id):
@@ -169,7 +164,6 @@ class Operation(models.Model):
         except ObjectDoesNotExist:
             return None
 
-
     @staticmethod
     def get_user_income_by_category(user_id):
         '''
@@ -178,15 +172,15 @@ class Operation(models.Model):
         :return: tuple with category names and income of each category
         '''
         categories = Category.get_user_category(user_id)
-        category_name = [category.name for category in categories if category.type != 'Current']
+        category_name = [category.name for category in categories if
+                         category.type != 'Current']
         income = []
         for category in categories:
             if category.type != 'Current':
                 income.append(Operation.get_user_category_income(user_id,
-                                                             category.id))
+                                                                 category.id))
 
         return (category_name, income)
-
 
     @staticmethod
     def get_user_outcome_by_category(user_id):
@@ -196,15 +190,15 @@ class Operation(models.Model):
         :return: tuple with category names and outcome of each category
         '''
         categories = Category.get_user_category(user_id)
-        category_name = [category.name for category in categories if category.type != 'Current']
+        category_name = [category.name for category in categories if
+                         category.type != 'Current']
         outcome = []
         for category in categories:
             if category.type != 'Current':
                 outcome.append(Operation.get_user_category_outcome(user_id,
-                                                             category.id))
+                                                                   category.id))
 
         return (category_name, outcome)
-
 
     @staticmethod
     def get_category_income_per_month(user_id, category_id):
@@ -215,7 +209,7 @@ class Operation(models.Model):
         :return: dict with income per month
         {month:income}
         '''
-        income_per_month = { key: 0 for key in range(1, 13)}
+        income_per_month = {key: 0 for key in range(1, 13)}
         category = Category.get_category(category_id)
 
         current_date = datetime.datetime.today()
@@ -240,7 +234,6 @@ class Operation(models.Model):
 
         return income_per_month
 
-
     @staticmethod
     def get_category_outcome_per_month(user_id, category_id):
         '''
@@ -251,7 +244,7 @@ class Operation(models.Model):
         {month:outcome}
         '''
 
-        outcome_per_month = { key: 0 for key in range(1, 13)}
+        outcome_per_month = {key: 0 for key in range(1, 13)}
         category = Category.get_category(category_id)
 
         current_date = datetime.datetime.today()

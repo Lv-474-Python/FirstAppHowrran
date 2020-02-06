@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='/category', permanent=False)),
+    # path('', RedirectView.as_view(url='/statistic/', permanent=False)),
     path("account/", include('account.urls')),
     path("category/", include('category.urls')),
     path("operation/", include('operation.urls')),

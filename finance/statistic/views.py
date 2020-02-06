@@ -11,7 +11,7 @@ import plotly.graph_objects as go
 def home_view(request):
     categories, income = Operation.get_user_income_by_category(request.user)
     categories2, outcome2 = Operation.get_user_outcome_by_category(
-                                                               request.user)
+        request.user)
 
     fig_income = px.pie(categories,
                         categories,
@@ -88,8 +88,8 @@ def statistic_category_view(request, category_id):
                                                            category_id)
 
     current_month = datetime.datetime.today().month
-    months1 = {1:'Jan', 2:'Feb', 3:'Mar', 4:'Apr', 5:'May', 6:'Jun',
-              7:'Jul', 8:'Aug', 9:'Sep', 10:'Oct', 11:'Nov', 12:'Dec'}
+    months1 = {1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun',
+               7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'}
 
     # make list of months from the past year to current
     # E.G. if today is February:
@@ -99,23 +99,30 @@ def statistic_category_view(request, category_id):
     months = [months1[(i % 13)] for i in range(current_month + 1,
                                                current_month + 14) if i != 13]
 
-    print(months)
+    # income_per_month is a dict that save income for each month
+    # months are in their number equivalent
+    # months{1:100} means that in Jan user had 100 income
     income_per_month1 = Operation.get_category_income_per_month(request.user,
-                                                               category_id)
+                                                                category_id)
     income_per_month = {}
     for i in range(current_month + 1, current_month + 14):
         if i == 13: continue
         i %= 13
         income_per_month[i] = income_per_month1[i]
 
+    # outcome_per_month is a dict that save outcome for each month
+    # months are in their number equivalent
+    # months{1:50} means that in Jan user had 50 outcome
     outcome_per_month1 = Operation.get_category_outcome_per_month(request.user,
-                                                                category_id)
+                                                                  category_id)
     outcome_per_month = {}
     for i in range(current_month + 1, current_month + 14):
         if i == 13: continue
         i %= 13
         outcome_per_month[i] = outcome_per_month1[i]
 
+    if category.type == 'Current':
+        income_per_month, outcome_per_month = outcome_per_month, income_per_month
 
     fig = go.Figure()
 
@@ -132,9 +139,9 @@ def statistic_category_view(request, category_id):
         marker_color='blue'
     ))
 
-
     fig.update_layout(barmode='group', width=1425, height=600)
 
+    # html <div> with Bar Chart
     bar = plot(fig, output_type='div')
 
     return render(request,

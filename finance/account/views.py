@@ -1,6 +1,7 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, \
-    update_session_auth_hash
+     update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password
 from .models import CustomUser
@@ -22,9 +23,12 @@ def registration_view(request):
         password = request.POST.get('password')
         password_confirm = request.POST.get('password_confirm')
 
+        if CustomUser.objects.filter(username=username).exists():
+            return HttpResponse(f"User with {username=} already exist")
+
         if password != password_confirm:
             print('pass not match')
-            return render(request, 'reg2.html')
+            return render(request, 'registration.html')
 
         user = CustomUser.create(username=username, password=password,
                                  email=email, name=name, surname=surname)
@@ -33,7 +37,7 @@ def registration_view(request):
 
         return redirect('login')
 
-    return render(request, 'reg2.html')
+    return render(request, 'registration.html')
 
 
 def login_view(request):
@@ -48,7 +52,7 @@ def login_view(request):
 
     if user and user.is_active:
         login(request, user)
-        return redirect('category_home')
+        return redirect('statistic_home')
 
     return redirect('login')
 
@@ -59,7 +63,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-
+@login_required
 def change_password_view(request):
     '''change users password'''
     if request.method == 'POST':
@@ -72,6 +76,6 @@ def change_password_view(request):
                                               new_password=new_password)
             update_session_auth_hash(request, user)
 
-            return redirect('category_home')
+            return redirect('statistic_home')
 
     return render(request, 'change_password.html')

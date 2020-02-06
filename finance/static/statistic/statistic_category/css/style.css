@@ -3,3 +3,7 @@
     justify-content: center;
     width: 100%;
 }
+
+.operation_list_link {
+    color: black;
+}
