@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from operation.models import Operation
 from category.models import Category
@@ -8,6 +9,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
+@login_required
 def home_view(request):
     categories, income = Operation.get_user_income_by_category(request.user)
     categories2, outcome2 = Operation.get_user_outcome_by_category(
@@ -69,7 +71,9 @@ def home_view(request):
                    'pie_outcome': pie_outcome})
 
 
+@login_required
 def statistic_category_view(request, category_id):
+
     '''
 
     :param request:
@@ -81,9 +85,10 @@ def statistic_category_view(request, category_id):
     category = Category.get_category(category_id)
     operation_list = Operation.get_user_operation_by_category(request.user,
                                                               category_id)
+    # category total income
     category_income = Operation.get_user_category_income(request.user,
                                                          category_id)
-
+    # category total outcome
     category_outcome = Operation.get_user_category_outcome(request.user,
                                                            category_id)
 
@@ -104,25 +109,20 @@ def statistic_category_view(request, category_id):
     # months{1:100} means that in Jan user had 100 income
     income_per_month1 = Operation.get_category_income_per_month(request.user,
                                                                 category_id)
-    income_per_month = {}
-    for i in range(current_month + 1, current_month + 14):
-        if i == 13: continue
-        i %= 13
-        income_per_month[i] = income_per_month1[i]
+
 
     # outcome_per_month is a dict that save outcome for each month
     # months are in their number equivalent
     # months{1:50} means that in Jan user had 50 outcome
     outcome_per_month1 = Operation.get_category_outcome_per_month(request.user,
                                                                   category_id)
+    income_per_month = {}
     outcome_per_month = {}
     for i in range(current_month + 1, current_month + 14):
         if i == 13: continue
         i %= 13
+        income_per_month[i] = income_per_month1[i]
         outcome_per_month[i] = outcome_per_month1[i]
-
-    if category.type == 'Current':
-        income_per_month, outcome_per_month = outcome_per_month, income_per_month
 
     fig = go.Figure()
 

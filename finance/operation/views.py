@@ -1,16 +1,72 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from category.models import Category
 from .models import Operation
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponse
+from plotly.offline import plot
 
+import plotly.graph_objects as go
+import datetime
 
+@login_required
 def home_view(request):
-    # a = Operation.get_user_operation_by_category(request.user)
     user_operation = Operation.get_user_operation(request.user.id)
+    if user_operation:
+        if request.user != user_operation[0].to_category.user_id:
+            return HttpResponse("403 NOT ALLOWED")
+    # get income of all user categories in dict
+    # {month:income}
+    inc = Operation.get_income_of_all_categories_per_month(request.user)
+    out = Operation.get_outcome_of_all_categories_per_month(request.user)
+
+    current_month = datetime.datetime.today().month
+    months1 = {1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun',
+               7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'}
+    income = {}
+    outcome = {}
+
+    # make list of months from the past year to current
+    # E.G. if today is February:
+    # months = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+    #           'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb']
+    months = [months1[(i % 13)] for i in range(current_month + 1,
+                                               current_month + 14) if i != 13]
+
+    for i in range(current_month + 1, current_month + 14):
+        if i == 13: continue
+        i %= 13
+        income[i] = inc[i]
+        outcome[i] = out[i]
+
+
+
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(
+        x=months,
+        y=list(income.values()),
+        name='Income',
+        marker_color='indianred'
+    ))
+    fig.add_trace(go.Bar(
+        x=months,
+        y=list(outcome.values()),
+        name='Outcome',
+        marker_color='blue'
+    ))
+
+    fig.update_layout(barmode='group', width=1425, height=600)
+
+    # html <div> with Bar Chart
+    bar = plot(fig, output_type='div')
+
     return render(request, 'operation.html',
-                  {'user_operation': user_operation})
+                  {'user_operation': user_operation,
+                   'bar': bar})
 
 
+@login_required
 def create_view(request):
     user_category = Category.get_user_category(user_id=request.user)
 

@@ -1,3 +1,7 @@
 .operation_list_link {
     color: black;
 }
+
+.table td, th {
+   text-align: center;
+}

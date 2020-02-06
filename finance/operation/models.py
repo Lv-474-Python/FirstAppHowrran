@@ -54,7 +54,7 @@ class Operation(models.Model):
     def get_user_operation(user_id):
         try:
             operation_list = Operation.objects.filter(
-                from_category__user_id=user_id)
+                from_category__user_id=user_id).order_by('-date')
             return list(operation_list)
         except ObjectDoesNotExist:
             return None
@@ -216,21 +216,45 @@ class Operation(models.Model):
         current_year = current_date.year
         current_month = current_date.month
 
-        for i in range(current_month + 1, 13):
-            a = list(Operation.objects.filter(from_category__user_id=user_id,
-                                              from_category=category.id,
-                                              date__month=i,
-                                              date__year=current_year - 1))
+        if category.type == 'Current':
+            for i in range(current_month + 1, 13):
+                a = list(
+                    Operation.objects.filter(to_category__user_id=user_id,
+                                             to_category=category.id,
+                                             date__month=i,
+                                             date__year=current_year - 1))
 
-            income_per_month[i] = sum(j.value for j in a)
+                income_per_month[i] = sum(j.value for j in a)
 
-        for i in range(1, current_month + 1):
-            a = list(Operation.objects.filter(from_category__user_id=user_id,
-                                              from_category=category.id,
-                                              date__month=i,
-                                              date__year=current_year))
+            for i in range(1, current_month + 1):
+                a = list(
+                    Operation.objects.filter(to_category__user_id=user_id,
+                                             to_category=category.id,
+                                             date__month=i,
+                                             date__year=current_year))
 
-            income_per_month[i] = sum(j.value for j in a)
+                income_per_month[i] = sum(j.value for j in a)
+        else:
+
+            for i in range(current_month + 1, 13):
+                a = list(Operation.objects.filter(from_category__user_id=user_id,
+                                                  from_category=category.id,
+                                                  date__month=i,
+                                                  date__year=current_year - 1))
+
+                income_per_month[i] = sum(j.value for j in a)
+
+            for i in range(1, current_month + 1):
+                a = list(Operation.objects.filter(from_category__user_id=user_id,
+                                                  from_category=category.id,
+                                                  date__month=i,
+                                                  date__year=current_year))
+
+                income_per_month[i] = sum(j.value for j in a)
+
+
+
+
 
         return income_per_month
 
@@ -251,20 +275,72 @@ class Operation(models.Model):
         current_year = current_date.year
         current_month = current_date.month
 
-        for i in range(current_month + 1, 13):
-            a = list(Operation.objects.filter(to_category__user_id=user_id,
-                                              to_category=category.id,
-                                              date__month=i,
-                                              date__year=current_year - 1))
 
-            outcome_per_month[i] = sum(j.value for j in a)
+        if category.type == 'Current':
+            for i in range(current_month + 1, 13):
+                a = list(Operation.objects.filter(from_category__user_id=user_id,
+                                                  from_category=category.id,
+                                                  date__month=i,
+                                                  date__year=current_year - 1))
 
-        for i in range(1, current_month + 1):
-            a = list(Operation.objects.filter(to_category__user_id=user_id,
-                                              to_category=category.id,
-                                              date__month=i,
-                                              date__year=current_year))
+                outcome_per_month[i] = sum(j.value for j in a)
 
-            outcome_per_month[i] = sum(j.value for j in a)
+            for i in range(1, current_month + 1):
+                a = list(Operation.objects.filter(from_category__user_id=user_id,
+                                                  from_category=category.id,
+                                                  date__month=i,
+                                                  date__year=current_year))
+
+                outcome_per_month[i] = sum(j.value for j in a)
+
+        else:
+            for i in range(current_month + 1, 13):
+                a = list(Operation.objects.filter(to_category__user_id=user_id,
+                                                  to_category=category.id,
+                                                  date__month=i,
+                                                  date__year=current_year - 1))
+
+                outcome_per_month[i] = sum(j.value for j in a)
+
+            for i in range(1, current_month + 1):
+                a = list(Operation.objects.filter(to_category__user_id=user_id,
+                                                  to_category=category.id,
+                                                  date__month=i,
+                                                  date__year=current_year))
+
+                outcome_per_month[i] = sum(j.value for j in a)
+
+        return outcome_per_month
+
+
+    @staticmethod
+    def get_income_of_all_categories_per_month(user_id):
+        categories = Category.get_user_category(user_id)
+        income_per_month = {key: 0 for key in range(1, 13)}
+        for category in categories:
+            if category.type != 'Current':
+                category_income = Operation.get_category_income_per_month(
+                                                                    user_id,
+                                                                    category.id
+                                                                    )
+
+                for month, income in category_income.items():
+                    income_per_month[month] += income
+
+        return income_per_month
+
+    @staticmethod
+    def get_outcome_of_all_categories_per_month(user_id):
+        categories = Category.get_user_category(user_id)
+        outcome_per_month = {key: 0 for key in range(1, 13)}
+        for category in categories:
+            if category.type != 'Current':
+                category_income = Operation.get_category_outcome_per_month(
+                    user_id,
+                    category.id
+                )
+
+                for month, outcome in category_income.items():
+                    outcome_per_month[month] += outcome
 
         return outcome_per_month

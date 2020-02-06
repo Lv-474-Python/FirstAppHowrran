@@ -16,9 +16,11 @@
     <p align="center" style="margin-top: 10px"><a class='btn btn-primary'
                                                   href="{% url 'operation_create' %}">Create
         new operation</a></p>
-    <h1 align="center">Operations</h1>
 
-    <table class="table">
+    {{ bar | safe }}
+        <h1 align="center">Operations</h1>
+
+    <table class="table" align="center">
         <thead>
         <tr>
             <th scope="col">From</th>
