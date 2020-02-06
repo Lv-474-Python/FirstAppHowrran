@@ -73,7 +73,6 @@ def home_view(request):
 
 @login_required
 def statistic_category_view(request, category_id):
-
     '''
 
     :param request:
@@ -109,7 +108,6 @@ def statistic_category_view(request, category_id):
     # months{1:100} means that in Jan user had 100 income
     income_per_month1 = Operation.get_category_income_per_month(request.user,
                                                                 category_id)
-
 
     # outcome_per_month is a dict that save outcome for each month
     # months are in their number equivalent
@@ -151,3 +149,68 @@ def statistic_category_view(request, category_id):
                    'category_income': category_income,
                    'category_outcome': category_outcome,
                    'bar': bar})
+
+
+def detail_view(request):
+    categories = Category.get_user_category(request.user)
+    category_income = []
+    category_outcome = []
+    category_operations = []
+    category_bar = []
+
+    current_month = datetime.datetime.today().month
+    months1 = {1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun',
+               7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'}
+
+    months = [months1[(i % 13)] for i in range(current_month + 1,
+                                               current_month + 14) if i != 13]
+
+    for category in categories:
+        category_operations.append(Operation.get_user_operation_by_category(
+            request.user, category.id))
+        income_per_month1 = Operation.get_category_income_per_month(
+            request.user,
+            category.id)
+        outcome_per_month1 = Operation.get_category_outcome_per_month(
+            request.user,
+            category.id)
+
+        category_income.append(Operation.get_user_category_income(request.user,
+                                                                  category.id))
+
+        category_outcome.append(Operation.get_user_category_outcome(request.user,
+                                                                    category.id))
+        income_per_month = {}
+        outcome_per_month = {}
+        for i in range(current_month + 1, current_month + 14):
+            if i == 13: continue
+            i %= 13
+            income_per_month[i] = income_per_month1[i]
+            outcome_per_month[i] = outcome_per_month1[i]
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            x=months,
+            y=list(income_per_month.values()),
+            name='Income',
+            marker_color='indianred'
+        ))
+        fig.add_trace(go.Bar(
+            x=months,
+            y=list(outcome_per_month.values()),
+            name='Outcome',
+            marker_color='blue'
+        ))
+        fig.update_layout(barmode='group', width=1425, height=600)
+
+        # html <div> with Bar Chart
+        category_bar.append(plot(fig, output_type='div'))
+
+    print(category_operations)
+
+    return render(request, 'statistic_detail.html',
+                  {'categories': categories,
+                   'category_income': category_income,
+                   'category_outcome': category_outcome,
+                   'category_bar': category_bar,
+                   'category_operations': category_operations
+                   })

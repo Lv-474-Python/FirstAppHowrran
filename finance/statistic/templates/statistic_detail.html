@@ -1,0 +1,87 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% load get_at_index %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+        <link rel="stylesheet" href="{% static 'statistic/statistic_detail/css/style.css' %}">
+        <title>Detail</title>
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    {% for category in categories %}
+        <h1 align="center">{{ category.name }}</h1>
+        {% if category.type == 'Current' %}
+            <h2 align="center">
+                Income: {{ category_outcome|get_at_index:forloop.counter0 }} </h2>
+            <h2 align="center">
+                Outcome: {{ category_income|get_at_index:forloop.counter0 }}</h2>
+        {% else %}
+            <h2 align="center">
+                Income: {{ category_income|get_at_index:forloop.counter0 }} </h2>
+            <h2 align="center">
+                Outcome: {{ category_outcome|get_at_index:forloop.counter0 }}</h2>
+        {% endif %}
+
+        <div>
+            {{ category_bar|get_at_index:forloop.counter0|safe }}
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">From</th>
+                <th scope="col">To</th>
+                <th scope="col">Value</th>
+                <th scope="col">Date</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for operation in category_operations|get_at_index:forloop.counter0|slice:':5' %}
+
+                <tr>
+                    {% if operation.from_category.type == 'Current' %}
+                        <td>
+                            <a class='operation_list_link'
+                               href="{% url 'statistic_category' category_id=operation.from_category.id %}">
+                                {{ operation.from_category.name }} </a>
+                        </td>
+                        <td>
+                            <a class='operation_list_link'
+                               href="{% url 'statistic_category' category_id=operation.to_category.id %}">
+                                {{ operation.to_category.name }}
+                            </a>
+                        </td>
+                        <td>-{{ operation.value }}</td>
+                        <td> {{ operation.date }}</td>
+                    {% else %}
+                        <td>
+                            <a class='operation_list_link'
+                               href="{% url 'statistic_category' category_id=operation.from_category.id %}">
+                                {{ operation.from_category.name }} </a>
+                        </td>
+                        <td>
+                            <a class='operation_list_link'
+                               href="{% url 'statistic_category' category_id=operation.to_category.id %}">
+                                {{ operation.to_category.name }}
+                            </a>
+                        </td>
+                        <td> {{ operation.value }}</td>
+                        <td> {{ operation.date }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+
+    {% endfor %}
+
+{% endblock %}
+</body>
+</html>

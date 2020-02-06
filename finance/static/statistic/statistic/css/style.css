@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin-bottom: 10px;
 }
 
 .statistic_head p {
@@ -19,3 +20,9 @@
     justify-content: center;
     margin-right: 50px;
 }
+
+.detail_statistic_link {
+    color: cornflowerblue;
+    font-size: 19px;
+}
+

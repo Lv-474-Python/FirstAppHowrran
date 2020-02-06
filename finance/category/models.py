@@ -74,6 +74,11 @@ class Category(models.Model):
 
     @staticmethod
     def get_user_category(user_id):
+        '''
+
+        :param user_id:
+        :return: List of user`s categories
+        '''
         try:
             category_list = Category.objects.filter(user_id=user_id)
             return list(category_list)
